@@ -1,8 +1,8 @@
 @font-face {
   font-family: 'mastodon-font-display';
   src: local('Spectral'),
-    url('../fonts/montserrat/Spectral-Regular.woff2') format('woff2'),
-    url('../fonts/montserrat/Spectral-Regular.ttf') format('truetype');
+    url('../fonts/montserrat/lib-reg.woff2') format('woff2'),
+    url('../fonts/montserrat/lib-reg.ttf') format('truetype');
   font-weight: 400;
   font-style: normal;
 }
@@ -10,16 +10,16 @@
 @font-face {
   font-family: 'mastodon-font-display';
   src: local('Spectral'),
-    url('../fonts/montserrat/Spectral-Bold.woff2') format('woff2'),
-    url('../fonts/montserrat/Spectral-Bold.ttf') format('truetype');
+    url('../fonts/montserrat/lib-bold.woff2') format('woff2'),
+    url('../fonts/montserrat/lib-bold.ttf') format('truetype');
   font-weight: 700;
 }
 
 @font-face {
   font-family: 'mastodon-font-display';
   src: local('Spectral'),
-    url('../fonts/montserrat/Spectral-Italic.woff2') format('woff2'),
-    url('../fonts/montserrat/Spectral-Italic.ttf') format('truetype');
+    url('../fonts/montserrat/lib-italic.woff2') format('woff2'),
+    url('../fonts/montserrat/lib-italic.ttf') format('truetype');
   font-weight: 400;
   font-style: italic;
 }
@@ -27,8 +27,8 @@
 @font-face {
   font-family: 'mastodon-font-display';
   src: local('Spectral'),
-    url('../fonts/montserrat/Spectral-BoldItalic.woff2') format('woff2'),
-    url('../fonts/montserrat/Spectral-BoldItalic.ttf') format('truetype');
+    url('../fonts/montserrat/lib-bolditalic.woff2') format('woff2'),
+    url('../fonts/montserrat/lib-bolditalic.ttf') format('truetype');
   font-weight: 700;
   font-style: italic;
 }
