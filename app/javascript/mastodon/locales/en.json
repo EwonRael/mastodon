@@ -70,7 +70,7 @@
   "column.mutes": "Muted users",
   "column.notifications": "Notifications",
   "column.pins": "Pinned Posts",
-  "column.public": "Federated timeline",
+  "column.public": "Global timeline",
   "column_back_button.label": "Back",
   "column_header.hide_settings": "Hide settings",
   "column_header.moveLeft_settings": "Move column to the left",

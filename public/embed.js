@@ -10,6 +10,7 @@
   };
 
   ready(function() {
+    console.log("THIS IS RUNNING HERE WOWZER");
     var iframes = [];
 
     window.addEventListener('message', function(e) {
