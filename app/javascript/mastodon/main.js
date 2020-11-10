@@ -21,7 +21,7 @@ function main() {
     const mountNode = document.getElementById('mastodon');
     const props = JSON.parse(mountNode.getAttribute('data-props'));
 
-    ReactDOM.render(<Tin Can Phone Club {...props} />, mountNode);
+    ReactDOM.render(<Mastodon {...props} />, mountNode);
     if (process.env.NODE_ENV === 'production') {
       // avoid offline in dev mode because it's harder to debug
       require('offline-plugin/runtime').install();
