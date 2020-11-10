@@ -1,4 +1,4 @@
-import { supportsPassiveEvents } from 'detect-passive-events';
+import detectPassiveEvents from 'detect-passive-events';
 
 const LAYOUT_BREAKPOINT = 630;
 
@@ -9,7 +9,7 @@ export function isMobile(width) {
 const iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
 
 let userTouching = false;
-let listenerOptions = supportsPassiveEvents ? { passive: true } : false;
+let listenerOptions = detectPassiveEvents.hasSupport ? { passive: true } : false;
 
 function touchListener() {
   userTouching = true;

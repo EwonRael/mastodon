@@ -10,7 +10,6 @@
 #  target_account_id :bigint(8)        not null
 #  show_reblogs      :boolean          default(TRUE), not null
 #  uri               :string
-#  notify            :boolean          default(FALSE), not null
 #
 
 class FollowRequest < ApplicationRecord
@@ -29,7 +28,7 @@ class FollowRequest < ApplicationRecord
   validates_with FollowLimitValidator, on: :create
 
   def authorize!
-    account.follow!(target_account, reblogs: show_reblogs, notify: notify, uri: uri)
+    account.follow!(target_account, reblogs: show_reblogs, uri: uri)
     MergeWorker.perform_async(target_account.id, account.id) if account.local?
     destroy!
   end

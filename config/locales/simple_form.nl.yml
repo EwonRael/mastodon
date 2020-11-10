@@ -89,9 +89,9 @@ nl:
         text: Aangepaste waarschuwing
         type: Actie
         types:
-          disable: Bevriezen
-          none: Waarschuwing sturen
-          silence: Beperken
+          disable: Inloggen uitschakelen
+          none: Niets doen
+          silence: Negeren
           suspend: Opschorten en onomkeerbaar accountgegevens verwijderen
         warning_preset_id: Gebruik een voorinstelling van een waarschuwing
       announcement:

@@ -87,7 +87,7 @@ module Mastodon
           say('Use --force to reattach it anyway and delete the other user')
           return
         elsif account.user.present?
-          DeleteAccountService.new.call(account, reserve_email: false)
+          account.user.destroy!
         end
       end
 
@@ -192,7 +192,7 @@ module Mastodon
       end
 
       say("Deleting user with #{account.statuses_count} statuses, this might take a while...")
-      DeleteAccountService.new.call(account, reserve_email: false)
+      SuspendAccountService.new.call(account, reserve_email: false)
       say('OK', :green)
     end
 
@@ -245,7 +245,7 @@ module Mastodon
         end
 
         if [404, 410].include?(code)
-          DeleteAccountService.new.call(account, reserve_username: false) unless options[:dry_run]
+          SuspendAccountService.new.call(account, reserve_username: false) unless options[:dry_run]
           1
         else
           # Touch account even during dry run to avoid getting the account into the window again
