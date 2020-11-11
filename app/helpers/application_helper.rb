@@ -163,6 +163,5 @@ module ApplicationHelper
 
     json = ActiveModelSerializers::SerializableResource.new(InitialStatePresenter.new(state_params), serializer: InitialStateSerializer).to_json
     content_tag(:script, json_escape(json).html_safe, id: 'initial-state', type: 'application/json')
-    content_tag(:script, '{"meta":{"title":"Mastodon"}}', id: 'title-correction', type: 'application/json')
   end
 end
