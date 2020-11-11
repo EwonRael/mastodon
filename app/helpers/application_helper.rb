@@ -145,7 +145,7 @@ module ApplicationHelper
         known_fediverse: Setting.show_known_fediverse_at_about_page,
       },
 
-      text: ['"title":"Tin Can Phone Club"', params[:text], params[:url]].compact.join(' '),
+      text: [params[:title], params[:text], params[:url]].compact.join(' '),
     }
 
     permit_visibilities = %w(public unlisted private direct)
