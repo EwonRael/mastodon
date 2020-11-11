@@ -57,7 +57,7 @@ module ApplicationHelper
   end
 
   def title
-    Rails.env.production? ? site_title : "Tin Can Phone Club (Dev)"
+    Rails.env.production? ? site_title : "#{site_title} (Dev)"
   end
 
   def class_for_scope(scope)
@@ -145,7 +145,7 @@ module ApplicationHelper
         known_fediverse: Setting.show_known_fediverse_at_about_page,
       },
 
-      text: [params[:title], params[:text], params[:url]].compact.join(' '),
+      text: ['"title":"Tin Can Phone Club"', params[:text], params[:url]].compact.join(' '),
     }
 
     permit_visibilities = %w(public unlisted private direct)
