@@ -33,7 +33,7 @@
       = stylesheet_link_tag custom_css_path, media: 'all'
 
     = yield :header_tags
-    = javascript_pack_tag 'injectcan', integrity: true, crossorigin: 'anonymous'
+
   %body{ class: body_classes }
     = content_for?(:content) ? yield(:content) : yield
 
