@@ -89,7 +89,7 @@
       height: 100%;
       display: block;
       margin: 0;
-      border-radius: 4px;
+  //    border-radius: 4px;
     }
   }
 
@@ -273,7 +273,7 @@
   .header {
     background: lighten($ui-base-color, 8%);
     box-shadow: 0 0 15px rgba($base-shadow-color, 0.2);
-    border-radius: 4px;
+//    border-radius: 4px;
     height: 48px;
     margin: 10px 0;
     display: flex;
@@ -288,7 +288,7 @@
       top: 0;
       left: 0;
       margin: 0;
-      border-radius: 0;
+  //    border-radius: 0;
       box-shadow: none;
       z-index: 110;
     }
@@ -372,7 +372,7 @@
       background: lighten($ui-base-color, 16%);
       margin: 8px;
       margin-left: 0;
-      border-radius: 4px;
+  //    border-radius: 4px;
 
       &:hover,
       &:focus,
@@ -413,10 +413,10 @@
   }
 
   .directory__card {
-    border-radius: 4px;
+//    border-radius: 4px;
 
     @media screen and (max-width: $no-gap-breakpoint) {
-      border-radius: 0;
+  //    border-radius: 0;
     }
   }
 
@@ -445,7 +445,7 @@
     }
 
     &__image {
-      border-radius: 4px 4px 0 0;
+  //    border-radius: 4px 4px 0 0;
       overflow: hidden;
       height: 300px;
       position: relative;
@@ -468,7 +468,7 @@
         width: 100%;
         height: 100%;
         margin: 0;
-        border-radius: 4px 4px 0 0;
+    //    border-radius: 4px 4px 0 0;
       }
 
       @media screen and (max-width: 600px) {
@@ -481,10 +481,10 @@
 
       .public-account-header__image,
       .public-account-header__image img {
-        border-radius: 4px;
+    //    border-radius: 4px;
 
         @media screen and (max-width: $no-gap-breakpoint) {
-          border-radius: 0;
+      //    border-radius: 0;
         }
       }
     }
@@ -499,7 +499,7 @@
 
       &__image,
       &__image img {
-        border-radius: 0;
+    //    border-radius: 0;
       }
     }
 
@@ -518,7 +518,7 @@
         left: 0;
         right: 0;
         height: 60px;
-        border-radius: 0 0 4px 4px;
+    //    border-radius: 0 0 4px 4px;
         z-index: -1;
       }
 
@@ -534,7 +534,7 @@
           width: 100%;
           height: 100%;
           margin: 0;
-          border-radius: 50%;
+      //    border-radius: 50%;
           border: 4px solid lighten($ui-base-color, 4%);
           background: darken($ui-base-color, 8%);
         }
@@ -543,7 +543,7 @@
       @media screen and (max-width: 600px) {
         margin-top: 0;
         background: lighten($ui-base-color, 4%);
-        border-radius: 0 0 4px 4px;
+    //    border-radius: 0 0 4px 4px;
         padding: 5px;
 
         &::before {
@@ -558,7 +558,7 @@
 
           img {
             border: 0;
-            border-radius: 4px;
+        //    border-radius: 4px;
           }
 
           @media screen and (max-width: 360px) {
@@ -568,7 +568,7 @@
       }
 
       @media screen and (max-width: $no-gap-breakpoint) {
-        border-radius: 0;
+    //    border-radius: 0;
       }
 
       @media screen and (max-width: $no-columns-breakpoint) {
@@ -729,7 +729,7 @@
       margin-top: 4px;
 
       .public-account-bio {
-        border-radius: 0;
+    //    border-radius: 0;
         box-shadow: none;
         background: transparent;
         margin: 0 -5px;
@@ -770,10 +770,10 @@
   }
 
   .account__section-headline {
-    border-radius: 4px 4px 0 0;
+//    border-radius: 4px 4px 0 0;
 
     @media screen and (max-width: $no-gap-breakpoint) {
-      border-radius: 0;
+  //    border-radius: 0;
     }
   }
 
@@ -784,14 +784,14 @@
   .public-account-bio {
     background: lighten($ui-base-color, 8%);
     box-shadow: 0 0 15px rgba($base-shadow-color, 0.2);
-    border-radius: 4px;
+//    border-radius: 4px;
     overflow: hidden;
     margin-bottom: 10px;
 
     @media screen and (max-width: $no-gap-breakpoint) {
       box-shadow: none;
       margin-bottom: 0;
-      border-radius: 0;
+  //    border-radius: 0;
     }
 
     .account__header__fields {
@@ -803,7 +803,7 @@
       }
 
       dl:first-child .verified {
-        border-radius: 0 4px 0 0;
+    //    border-radius: 0 4px 0 0;
       }
 
       .verified a {

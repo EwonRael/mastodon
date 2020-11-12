@@ -43,7 +43,7 @@
       .status,
       .load-more {
         border-bottom: 0;
-        border-radius: 0 0 4px 4px;
+  //      border-radius: 0 0 4px 4px;
       }
     }
 
@@ -51,14 +51,14 @@
       .detailed-status,
       .status,
       .load-more {
-        border-radius: 4px 4px 0 0;
+  //      border-radius: 4px 4px 0 0;
       }
 
       &:last-child {
         .detailed-status,
         .status,
         .load-more {
-          border-radius: 4px;
+    //      border-radius: 4px;
         }
       }
     }

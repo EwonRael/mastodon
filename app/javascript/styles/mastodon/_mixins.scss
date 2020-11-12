@@ -1,5 +1,5 @@
 @mixin avatar-radius {
-  border-radius: 4px;
+//  border-radius: 4px;
   background: transparent no-repeat;
   background-position: 50%;
   background-clip: padding-box;
@@ -26,7 +26,7 @@
 
 @mixin search-popout {
   background: $simple-background-color;
-  border-radius: 4px;
+//  border-radius: 4px;
   padding: 10px 14px;
   padding-bottom: 14px;
   margin-top: 10px;

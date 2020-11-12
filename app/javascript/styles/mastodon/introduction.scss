@@ -18,14 +18,14 @@
 
   &__pager,
   &__frame {
-    border-radius: 10px;
+//    border-radius: 10px;
     width: 50vw;
     min-width: 920px;
 
     @media screen and (max-width: 920px) {
       min-width: 0;
       width: 100%;
-      border-radius: 0;
+  //    border-radius: 0;
       box-shadow: none;
     }
   }
@@ -102,7 +102,7 @@
         background: darken($ui-base-color, 8%);
         font-size: 15px;
         border: 1px solid lighten($ui-base-color, 8%);
-        border-radius: 2px;
+    //    border-radius: 2px;
         padding: 1px 3px;
       }
     }
@@ -128,7 +128,7 @@
   &__dot {
     width: 14px;
     height: 14px;
-    border-radius: 14px;
+//    border-radius: 14px;
     border: 1px solid $ui-highlight-color;
     background: transparent;
     margin: 0 3px;

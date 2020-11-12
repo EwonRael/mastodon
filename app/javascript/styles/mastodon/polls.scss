@@ -34,17 +34,17 @@
     // Those rules need to be entirely separate or they won't work, hence the
     // duplication
     &::-moz-progress-bar {
-      border-radius: 4px;
+//      border-radius: 4px;
       background: darken($ui-primary-color, 5%);
     }
 
     &::-ms-fill {
-      border-radius: 4px;
+//      border-radius: 4px;
       background: darken($ui-primary-color, 5%);
     }
 
     &::-webkit-progress-value {
-      border-radius: 4px;
+//      border-radius: 4px;
       background: darken($ui-primary-color, 5%);
     }
   }
@@ -83,7 +83,7 @@
       font-family: inherit;
       background: $simple-background-color;
       border: 1px solid darken($simple-background-color, 14%);
-      border-radius: 4px;
+//      border-radius: 4px;
       padding: 6px 10px;
 
       &:focus {
@@ -119,7 +119,7 @@
     flex: 0 0 18px;
 
     &.checkbox {
-      border-radius: 4px;
+//      border-radius: 4px;
     }
 
     &.active {

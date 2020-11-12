@@ -108,7 +108,7 @@ code {
     }
 
     code {
-      border-radius: 3px;
+  //    border-radius: 3px;
       padding: 0.2em 0.4em;
       background: darken($ui-base-color, 12%);
     }
@@ -335,7 +335,7 @@ code {
     font-size: 16px;
     padding: 10px;
     border: 1px solid $dark-text-color;
-    border-radius: 4px;
+//    border-radius: 4px;
   }
 
   input[type=text],
@@ -353,7 +353,7 @@ code {
     resize: vertical;
     background: darken($ui-base-color, 10%);
     border: 1px solid darken($ui-base-color, 14%);
-    border-radius: 4px;
+//    border-radius: 4px;
     padding: 10px;
 
     &::placeholder {
@@ -425,7 +425,7 @@ code {
     display: block;
     width: 100%;
     border: 0;
-    border-radius: 4px;
+//    border-radius: 4px;
     background: $ui-highlight-color;
     color: $primary-text-color;
     font-size: 18px;
@@ -485,7 +485,7 @@ code {
     resize: vertical;
     background: darken($ui-base-color, 10%) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14.933 18.467' height='19.698' width='15.929'><path d='M3.467 14.967l-3.393-3.5H14.86l-3.392 3.5c-1.866 1.925-3.666 3.5-4 3.5-.335 0-2.135-1.575-4-3.5zm.266-11.234L7.467 0 11.2 3.733l3.733 3.734H0l3.733-3.734z' fill='#{hex-color(lighten($ui-base-color, 12%))}'/></svg>") no-repeat right 8px center / auto 16px;
     border: 1px solid darken($ui-base-color, 14%);
-    border-radius: 4px;
+//    border-radius: 4px;
     padding-left: 10px;
     padding-right: 30px;
     height: 41px;
@@ -545,7 +545,7 @@ code {
       justify-content: center;
       align-items: center;
       background: rgba($ui-base-color, 0.65);
-      border-radius: 4px;
+  //    border-radius: 4px;
       margin-left: -4px;
       margin-top: -4px;
       padding: 4px;
@@ -778,7 +778,7 @@ code {
     color: $primary-text-color;
     text-shadow: 1px 1px 0 rgba($base-shadow-color, 0.3);
     box-shadow: 0 2px 6px rgba($base-shadow-color, 0.4);
-    border-radius: 4px;
+//    border-radius: 4px;
     padding: 10px;
     margin-bottom: 15px;
 
@@ -921,7 +921,7 @@ code {
 
   .fa-link {
     background-color: darken($ui-base-color, 4%);
-    border-radius: 100%;
+//    border-radius: 100%;
     font-size: 24px;
     padding: 10px;
   }
@@ -954,7 +954,7 @@ code {
   &__connection {
     background-color: lighten($ui-base-color, 8%);
     box-shadow: 0 0 15px rgba($base-shadow-color, 0.2);
-    border-radius: 4px;
+//    border-radius: 4px;
     padding: 25px 10px;
     position: relative;
     text-align: center;
