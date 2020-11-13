@@ -17,5 +17,5 @@ class ReportNote < ApplicationRecord
 
   scope :latest, -> { reorder(created_at: :desc) }
 
-  validates :content, presence: true, length: { maximum: 501 }
+  validates :content, presence: true, length: { maximum: 666 }
 end
