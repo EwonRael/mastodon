@@ -6,6 +6,6 @@ app/models/account_moderation_note.rb
 app/models/report_note.rb
 app/javascript/mastodon/features/compose/components/compose_form.js
 #app/javascript/mastodon/features/ui/index.js
-#spec/validators/status_length_validator_spec.rb
+spec/validators/status_length_validator_spec.rb
 app/javascript/mastodon/features/compose/components/character_counter.js
 app/javascript/mastodon/features/ui/components/focal_point_modal.js
