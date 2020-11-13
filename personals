@@ -1,0 +1,9 @@
+PLACES THAT I THINK HAVE TO DO WITH 500 CHAR LIMIT:
+#app/views/settings/profiles/show.html.haml
+app/validators/status_length_validator.rb
+#app/models/account.rb
+#app/models/account_moderation_note.rb
+#app/models/report_note.rb
+app/javascript/mastodon/features/compose/components/compose_form.js
+#app/javascript/mastodon/features/ui/index.js
+#spec/validators/status_length_validator_spec.rb
