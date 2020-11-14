@@ -44,7 +44,7 @@
 .button {
   background-color: $ui-highlight-color;
   border: 10px none;
-  border-radius: 4px;
+//  border-radius: 4px;
   box-sizing: border-box;
   color: $primary-text-color;
   cursor: pointer;
@@ -167,7 +167,7 @@
   padding: 0;
   color: $action-button-color;
   border: 0;
-  border-radius: 4px;
+//  border-radius: 4px;
   background: transparent;
   cursor: pointer;
   transition: all 100ms ease-in;
@@ -250,7 +250,7 @@
 .text-icon-button {
   color: $lighter-text-color;
   border: 0;
-  border-radius: 4px;
+//  border-radius: 4px;
   background: transparent;
   cursor: pointer;
   font-weight: 600;
@@ -741,7 +741,7 @@
 }
 
 .reply-indicator {
-  border-radius: 4px;
+//  border-radius: 4px;
   margin-bottom: 10px;
   background: $ui-primary-color;
   padding: 10px;
@@ -943,7 +943,7 @@
 
 .status__content__spoiler-link {
   display: inline-block;
-  border-radius: 2px;
+//  border-radius: 2px;
   background: transparent;
   border: 0;
   color: $inverted-text-color;
@@ -1349,7 +1349,7 @@
 
   &-composite {
     @include avatar-radius;
-//    border-radius: 50%;
+    border-radius: 50%;
     overflow: hidden;
     position: relative;
 
@@ -1849,7 +1849,7 @@ a.account__display-name {
 .dropdown-menu {
   background: $ui-secondary-color;
   padding: 4px 0;
-  border-radius: 4px;
+//  border-radius: 4px;
   box-shadow: 2px 4px 15px rgba($base-shadow-color, 0.4);
   z-index: 9999;
 
@@ -2830,7 +2830,7 @@ a.account__display-name {
 
 .column-link__badge {
   display: inline-block;
-  border-radius: 4px;
+//  border-radius: 4px;
   font-size: 12px;
   line-height: 19px;
   font-weight: 500;
@@ -2979,7 +2979,7 @@ a.account__display-name {
   resize: vertical;
   border: 0;
   outline: 0;
-  border-radius: 4px;
+//  border-radius: 4px;
 
   &:focus {
     outline: 0;
@@ -3019,7 +3019,7 @@ button.icon-button.active i.fa-retweet {
   display: flex;
   font-size: 14px;
   border: 1px solid lighten($ui-base-color, 8%);
-  border-radius: 4px;
+//  border-radius: 4px;
   color: $dark-text-color;
   margin-top: 14px;
   text-decoration: none;
@@ -3183,7 +3183,7 @@ a.status-card.compact:hover {
 }
 
 .status-card__image-image {
-  border-radius: 4px 0 0 4px;
+//  border-radius: 4px 0 0 4px;
   display: block;
   margin: 0;
   width: 100%;
@@ -3194,7 +3194,7 @@ a.status-card.compact:hover {
 }
 
 .status-card__image-preview {
-  border-radius: 4px 0 0 4px;
+//  border-radius: 4px 0 0 4px;
   display: block;
   margin: 0;
   width: 100%;
@@ -3623,7 +3623,7 @@ a.status-card.compact:hover {
   padding: 0;
   width: 100%;
   height: 100%;
-  border-radius: 4px;
+//  border-radius: 4px;
   appearance: none;
 
   &:hover,
@@ -3851,7 +3851,7 @@ a.status-card.compact:hover {
   font-size: 11px;
   font-weight: 500;
   padding: 4px;
-  border-radius: 4px;
+//  border-radius: 4px;
   opacity: 0.7;
 
   &:hover {
@@ -3987,7 +3987,7 @@ a.status-card.compact:hover {
   background: $simple-background-color;
   position: absolute;
   box-shadow: 4px 4px 6px rgba($base-shadow-color, 0.4);
-  border-radius: 4px;
+//  border-radius: 4px;
   margin-top: 5px;
   z-index: 2;
 
@@ -4013,7 +4013,7 @@ a.status-card.compact:hover {
   top: -4px;
   left: -8px;
   background: $simple-background-color;
-  border-radius: 4px;
+//  border-radius: 4px;
   box-shadow: 1px 2px 6px rgba($base-shadow-color, 0.2);
   overflow: hidden;
 
@@ -4077,7 +4077,7 @@ a.status-card.compact:hover {
   bottom: 0;
   left: 0;
   z-index: -1;
-  border-radius: 4px;
+//  border-radius: 4px;
   background: $ui-base-color;
   box-shadow: 0 0 5px rgba($base-shadow-color, 0.2);
 }
@@ -4091,7 +4091,7 @@ a.status-card.compact:hover {
   font-size: 18px;
   font-weight: 500;
   border: 2px dashed $ui-base-lighter-color;
-  border-radius: 4px;
+//  border-radius: 4px;
 }
 
 .upload-progress {
@@ -4120,7 +4120,7 @@ a.status-card.compact:hover {
 .upload-progress__backdrop {
   width: 100%;
   height: 6px;
-  border-radius: 6px;
+//  border-radius: 6px;
   background: $ui-base-lighter-color;
   position: relative;
   margin-top: 5px;
@@ -4132,7 +4132,7 @@ a.status-card.compact:hover {
   top: 0;
   height: 6px;
   background: $ui-highlight-color;
-  border-radius: 6px;
+//  border-radius: 6px;
 }
 
 .emoji-button {
@@ -4174,7 +4174,7 @@ a.status-card.compact:hover {
   position: absolute;
   background: $simple-background-color;
   box-shadow: 2px 4px 15px rgba($base-shadow-color, 0.4);
-  border-radius: 4px;
+//  border-radius: 4px;
   margin-left: 40px;
   overflow: hidden;
 
@@ -4583,7 +4583,7 @@ a.status-card.compact:hover {
   background-color: $primary-text-color;
   height: 12px;
   width: 12px;
-  border-radius: 6px;
+//  border-radius: 6px;
   margin: 10px;
   padding: 0;
   border: 0;
@@ -4606,7 +4606,7 @@ a.status-card.compact:hover {
 .embed-modal {
   background: $ui-secondary-color;
   color: $inverted-text-color;
-  border-radius: 8px;
+//  border-radius: 8px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -4730,7 +4730,7 @@ a.status-card.compact:hover {
 .block-modal {
   background: lighten($ui-secondary-color, 8%);
   color: $inverted-text-color;
-  border-radius: 8px;
+//  border-radius: 8px;
   overflow: hidden;
   max-width: 90vw;
   width: 480px;
@@ -5129,7 +5129,7 @@ a.status-card.compact:hover {
   bottom: 6px;
   left: 6px;
   padding: 2px 6px;
-  border-radius: 2px;
+//  border-radius: 2px;
   font-size: 11px;
   font-weight: 600;
   z-index: 1;
@@ -5151,7 +5151,7 @@ a.status-card.compact:hover {
   display: flex;
   font-size: 14px;
   border: 1px solid lighten($ui-base-color, 8%);
-  border-radius: 4px;
+//  border-radius: 4px;
   margin-top: 14px;
   overflow: hidden;
 
@@ -5216,7 +5216,7 @@ a.status-card.compact:hover {
   box-sizing: border-box;
   margin-top: 8px;
   overflow: hidden;
-  border-radius: 4px;
+//  border-radius: 4px;
   position: relative;
   width: 100%;
   min-height: 64px;
@@ -5228,7 +5228,7 @@ a.status-card.compact:hover {
   display: block;
   float: left;
   position: relative;
-  border-radius: 4px;
+//  border-radius: 4px;
   overflow: hidden;
 
   &.standalone {
@@ -5317,7 +5317,7 @@ a.status-card.compact:hover {
   box-sizing: border-box;
   position: relative;
   background: darken($ui-base-color, 8%);
-  border-radius: 4px;
+//  border-radius: 4px;
   padding-bottom: 44px;
   direction: ltr;
 
@@ -5377,7 +5377,7 @@ a.status-card.compact:hover {
   position: relative;
   background: $base-shadow-color;
   max-width: 100%;
-  border-radius: 4px;
+//  border-radius: 4px;
   box-sizing: border-box;
   direction: ltr;
   color: $white;
@@ -5603,7 +5603,7 @@ a.status-card.compact:hover {
     &__handle {
       position: absolute;
       z-index: 3;
-  //    border-radius: 50%;
+      border-radius: 50%;
       width: 12px;
       height: 12px;
       top: 50%;
@@ -5675,7 +5675,7 @@ a.status-card.compact:hover {
       position: absolute;
       z-index: 3;
       opacity: 0;
-  //    border-radius: 50%;
+      border-radius: 50%;
       width: 12px;
       height: 12px;
       top: 6px;
@@ -5860,7 +5860,7 @@ a.status-card.compact:hover {
   box-sizing: border-box;
   display: block;
   position: relative;
-  border-radius: 4px;
+//  border-radius: 4px;
   overflow: hidden;
   margin: 2px;
 
@@ -5984,7 +5984,7 @@ a.status-card.compact:hover {
     flex: 0 0 auto;
     margin-right: 10px;
     top: -1px;
-//    border-radius: 50%;
+    border-radius: 50%;
     vertical-align: middle;
 
     &.checked {
@@ -6254,7 +6254,7 @@ noscript {
 .list-editor {
   background: $ui-base-color;
   flex-direction: column;
-  border-radius: 8px;
+//  border-radius: 8px;
   box-shadow: 2px 4px 15px rgba($base-shadow-color, 0.4);
   width: 380px;
   overflow: hidden;
@@ -6308,7 +6308,7 @@ noscript {
 .list-adder {
   background: $ui-base-color;
   flex-direction: column;
-  border-radius: 8px;
+//  border-radius: 8px;
   box-shadow: 2px 4px 15px rgba($base-shadow-color, 0.4);
   width: 380px;
   overflow: hidden;
@@ -6374,7 +6374,7 @@ noscript {
     height: 100px;
     transform: translate(-50%, -50%);
     background: url('../images/reticle.png') no-repeat 0 0;
-//    border-radius: 50%;
+    border-radius: 50%;
     box-shadow: 0 0 0 9999em rgba($base-shadow-color, 0.35);
   }
 
@@ -6775,7 +6775,7 @@ noscript {
   &__unread {
     display: inline-block;
     background: $highlight-text-color;
-//    border-radius: 50%;
+    border-radius: 50%;
     width: 0.625rem;
     height: 0.625rem;
     margin: -.1ex .15em .1ex;
@@ -6896,7 +6896,7 @@ noscript {
       right: 19px;
       display: block;
       background: $highlight-text-color;
-  //    border-radius: 50%;
+      border-radius: 50%;
       width: 0.625rem;
       height: 0.625rem;
     }
