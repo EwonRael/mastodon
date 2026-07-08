@@ -44,6 +44,7 @@ class TextFormatter
     end
 
     html = markdown_format(html)
+    html = group_mention_format(html)
     html = simple_format(html, {}, sanitize: false).delete("\n") if multiline?
     html = add_quote_fallback(html) if options[:quoted_status].present?
 
@@ -115,6 +116,22 @@ class TextFormatter
     html = html.gsub(/\*([^\n*]+?)\*/, '<em>\1</em>')
     html = html.gsub(/__([^\n_]+?)__/, '<u>\1</u>')
     html
+  end
+
+  # Tin Can Phone Club: style "@all"/"@kids"/etc (see
+  # ProcessMentionsService::GROUPS) with the same distinct look as a real
+  # mention link, applied here at render time -- after entity extraction
+  # has already escaped the plain "@word" text -- so it survives instead
+  # of getting HTML-escaped back into visible "<span>" text.
+  def group_mention_format(html)
+    html.gsub(group_mention_pattern) { |match| "<span class=\"mention-all\">#{match}</span>" }
+  end
+
+  def group_mention_pattern
+    @group_mention_pattern ||= begin
+      names = ProcessMentionsService::GROUPS.keys.map { |key| Regexp.escape(key) }.join('|')
+      %r{(?<![=/\w])@(?:#{names})\b}i
+    end
   end
 
   def rewrite

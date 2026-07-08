@@ -45,7 +45,12 @@ class ProcessMentionsService < BaseService
       # Tin Can Phone Club: named group mentions (see GROUPS above) --
       # notifies a whole group instead of looking up a single account.
       # Guarded by an existence check so a real account with the same
-      # name would never be shadowed by this.
+      # name would never be shadowed by this. Leave the matched text
+      # untouched -- the "mention-all" styling is applied later, at
+      # render time, by TextFormatter. Embedding the <span> directly into
+      # the stored status text doesn't work, because that text gets
+      # HTML-escaped right back into visible "<span>...</span>" text the
+      # next time it's rendered.
       group_key = username.downcase
       if domain.nil? && GROUPS.key?(group_key) && !Account.exists?(username: username, domain: nil)
         if GROUPS[group_key] == :everyone
@@ -53,7 +58,7 @@ class ProcessMentionsService < BaseService
         else
           mention_group!(GROUPS[group_key])
         end
-        next "<span class=\"mention-all\">@#{username}</span>"
+        next match
       end
 
       mentioned_account = Account.find_remote(username, domain)
