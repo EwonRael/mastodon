@@ -8,6 +8,8 @@
   },
   "tags": {
     "p": {},
+    "h1": {},
+    "h2": {},
     "br": {
       "children": false
     },

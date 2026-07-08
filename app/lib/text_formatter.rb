@@ -43,6 +43,7 @@ class TextFormatter
       end
     end
 
+    html = markdown_format(html)
     html = simple_format(html, {}, sanitize: false).delete("\n") if multiline?
     html = add_quote_fallback(html) if options[:quoted_status].present?
 
@@ -88,6 +89,33 @@ class TextFormatter
   end
 
   private
+
+  # Tin Can Phone Club: lightweight hand-rolled markdown-lite, not a full
+  # parser -- just headers, bold, italic, underline, per explicit request to
+  # keep this simple rather than pulling in a markdown gem. Runs after the
+  # entity rewrite (URLs/hashtags/mentions already linked by this point), so
+  # "#tag" (no space, a real hashtag) is already consumed into an <a> before
+  # this runs, while "# Header" (with a space) is untouched and free to match
+  # here -- the space is what naturally disambiguates the two syntaxes.
+  def markdown_format(html)
+    html = html.split("\n", -1).map do |line|
+      if line =~ /\A##\s+(.+)\z/
+        "<h2>#{Regexp.last_match(1)}</h2>"
+      elsif line =~ /\A#\s+(.+)\z/
+        "<h1>#{Regexp.last_match(1)}</h1>"
+      else
+        line
+      end
+    end.join("\n")
+
+    # Order matters: bold (**) before italic (*), so the italic pass only
+    # ever sees the single asterisks left over, not the pairs that made up
+    # bold markers.
+    html = html.gsub(/\*\*([^\n*]+?)\*\*/, '<strong>\1</strong>')
+    html = html.gsub(/\*([^\n*]+?)\*/, '<em>\1</em>')
+    html = html.gsub(/__([^\n_]+?)__/, '<u>\1</u>')
+    html
+  end
 
   def rewrite
     entities.sort_by! do |entity|

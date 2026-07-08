@@ -1,0 +1,626 @@
+/* Tin Can Phone Club: the entire "grey" palette (--color-grey-50 through
+   -950) is actually purple/indigo-tinted -- every value has R=G but a
+   noticeably higher B channel (e.g. #67678e). Nearly everything neutral
+   (--color-text-secondary, --default-icon-color, borders, etc.) derives
+   from this one shared scale in both light and dark themes, so overriding
+   it here once removes the purple tint everywhere at the root, rather than
+   chasing individual semantic tokens. Each value converted to HSL, S set
+   to 0, L unchanged -- true neutral grey at the exact same lightness, not
+   an eyeballed guess. (--color-indigo-* is left alone: that's the actual
+   brand-color scale, already redirected to black separately below.) */
+:root {
+   --color-grey-50: #f8f8f8;
+   --color-grey-100: #f0f0f0;
+   --color-grey-200: #dcdcdc;
+   --color-grey-300: #bcbcbc;
+   --color-grey-400: #999999;
+   --color-grey-500: #7a7a7a;
+   --color-grey-600: #646464;
+   --color-grey-700: #525252;
+   --color-grey-800: #454545;
+   --color-grey-900: #272727;
+   --color-grey-950: #1c1c1c;
+}
+
+/* Newspaper pairing: Linux Libertine (serif) for display/headline elements,
+   TeX Gyre Heros for everything else. Sitewide base font too, since
+   basics.scss sets $font-sans-serif: 'mastodon-font-sans-serif' as the body
+   font. Italic cuts included for both weights -- note LinLibertine_RI.otf is
+   the actual italic; LinLibertine_I.otf is a decorative "Initials"/drop-cap
+   face, not body italic. */
+@font-face {
+    font-family: "mastodon-font-display";
+    src: url("/fonts/LinLibertine_R.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "mastodon-font-display";
+    src: url("/fonts/LinLibertine_RI.otf") format("opentype");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "mastodon-font-display";
+    src: url("/fonts/LinLibertine_RB.otf") format("opentype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "mastodon-font-display";
+    src: url("/fonts/LinLibertine_RBI.otf") format("opentype");
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "mastodon-font-sans-serif";
+    src: url("/fonts/texgyreheros-regular.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "mastodon-font-sans-serif";
+    src: url("/fonts/texgyreheros-bold.otf") format("opentype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Mastodon's own stock stylesheet (app/javascript/styles/fonts/roboto.scss)
+   ALSO defines "mastodon-font-sans-serif" via @font-face, using local Roboto
+   as its primary source, for FOUR weight/style combinations: normal, bold,
+   italic, and weight 500 ("Medium"). Our override above only covered normal
+   and bold, so anything specifically requesting italic or weight 500 fell
+   through to Mastodon's own Roboto declaration instead of ours (this is why
+   "Roboto Medium" kept appearing in specific spots like display names).
+   Filling in the remaining two combinations closes that gap completely. */
+@font-face {
+    font-family: "mastodon-font-sans-serif";
+    src: url("/fonts/texgyreheros-italic.otf") format("opentype");
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "mastodon-font-sans-serif";
+    src: url("/fonts/texgyreheros-bold.otf") format("opentype");
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* True bold-italic (not previously sourced -- only regular/bold/italic were
+   grabbed originally). Without this, "***bold italic***" text had no exact
+   weight+style match, so the browser was synthesizing/faking it from
+   whatever was closest (usually a browser-emboldened italic, or a
+   browser-slanted bold) rather than using this font's own real design. */
+@font-face {
+    font-family: "mastodon-font-sans-serif";
+    src: url("/fonts/texgyreheros-bolditalic.otf") format("opentype");
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+
+/* Onboarding "introduction" walkthrough was removed/redesigned in modern Mastodon
+   (replaced by the profile-setup / follow-suggestions onboarding flow). No
+   equivalent element exists to carry ".introduction__text" forward. Dropped. */
+
+/* Site logo, shown in the left-hand navigation panel (the modern equivalent of
+   the old top "brand" bar). The wordmark is now an inline SVG rather than a
+   text label behind a background-image, so we hide the SVG and paint the
+   custom logo as a background image on its link wrapper instead. */
+.navigation-panel__logo .column-link--logo {
+   background-image: url("https://github.com/EwonRael/mastodon/raw/master/public/logo.svg");
+   background-position: left center;
+   background-repeat: no-repeat;
+   background-size: contain;
+   min-height: 2.5em;
+}
+
+.navigation-panel__logo .column-link--logo svg {
+   display: none;
+}
+
+/* .hero-widget__text a { text-decoration: underline; } is dropped: its
+   modern equivalent, ".prose a" (admin-authored About-page text), is already
+   underlined by default in the current theme, so this is redundant now. */
+
+.status {
+   border: none;
+   margin-bottom: 1em;
+}
+
+.account__avatar {
+   border-radius: 0 !important;
+}
+
+.column-header {
+   border-bottom: none;
+}
+
+/* .tabs-bar__link { border-bottom-color: transparent; } and
+   .tabs-bar__link span { ... } are dropped: the mobile "tabs bar" concept was
+   replaced by the icon-only bottom nav (.ui__navigation-bar__item), which has
+   no border-bottom indicator and no visible text label to target. No clean
+   equivalent exists. */
+
+.button {
+   border-radius: 0;
+}
+
+.simple_form input[type="email"], .simple_form input[type="number"], .simple_form input[type="password"], .simple_form input[type="text"], .simple_form textarea {
+   border-radius: 0;
+}
+
+.simple_form select {
+   border-radius: 0;
+}
+
+.flash-message.notice {
+   border-radius: 0;
+}
+
+h2 {
+   font-family: mastodon-font-display,sans-serif;
+   font-size: 110%;
+}
+
+h1 {
+   font-family: mastodon-font-display,sans-serif;
+   font-size: 110%;
+}
+
+.compose-form .compose-form__highlightable {
+   border-radius: 0;
+}
+
+.compose-panel .autosuggest-textarea__suggestions {
+   border-radius: 0;
+}
+
+.navigation-panel {
+   font-family: mastodon-font-display,sans-serif;
+   font-size: 110%;
+}
+
+/* .account__header__tabs__name h1 span { font-weight: bold; } is dropped:
+   the display name is already font-weight 600 by default in the current
+   account header component, so this is redundant now. */
+
+/* Covers both former ".account__header__tabs__name h1 small" and
+   ".public-account-header__tabs h1 small" (public and logged-in profile
+   views now share one component). The "@handle" text moved out of the <h1>
+   into its own disclosure button below the name. */
+._comp_account_header__handleHelpButton {
+   font-family: mastodon-font-sans-serif;
+}
+
+.media-gallery__item {
+   border-radius: 0;
+}
+
+.media-gallery {
+   border-radius: 0;
+}
+
+.audio-player {
+   border-radius: 0;
+}
+
+.icon-with-badge__badge {
+   color: white;
+   font-family: mastodon-font-sans-serif;
+}
+
+.icon-bullhorn {
+   color: #df405a;
+}
+
+.star-icon .icon-star {
+   transform: scale(0.85,0.85);
+}
+
+/* .getting-started .column-link { ... } is dropped: the "Getting started"
+   view no longer has a wrapping ".getting-started" element - it now renders
+   directly as the navigation panel, so this is already covered by the
+   ".navigation-panel" rule above. */
+
+/* Was ".landing .directory { display: none; }". The old static "landing"
+   page is gone; the closest surviving equivalent is the "Profiles directory"
+   footer link shown on the React-rendered About page (class "about").
+   Targeting by href is more robust than guessing at hashed CSS-module class
+   names. Alternative: drop ".about " to hide the directory link everywhere
+   it appears (e.g. also in the multi-column "Getting started" pane). */
+.about a[href="/directory"] {
+   display: none;
+}
+
+/* Was ".public-layout .hero-widget__text { border-bottom: none; }". Closest
+   surviving structural equivalent to the old hero/intro text block. */
+.about {
+   border-top: none;
+}
+
+/* Covers both former ".account__header__image { background-color: inherit; }"
+   and ".public-layout .public-account-header__image { background-color:
+   white; border: 1px solid #ccc; }" - both targeted the account cover-image
+   container, which is now a single shared element (public and logged-in
+   profile views are the same component). These two old rules contradicted
+   each other; kept the "public" white-card treatment since public profile
+   viewing is this instance's primary real-world use case. Alternative: use
+   "background-color: inherit;" with no border instead. */
+._comp_account_header__header {
+   background-color: white;
+   border: 1px solid #ccc;
+}
+
+/* .public-layout .public-account-header__bar .avatar img { border-radius: 0; }
+   is dropped as redundant: the avatar is now always rendered by the same
+   Avatar component, already flattened globally by ".account__avatar" above. */
+
+/* .public-layout .public-account-header__tabs__name h1 { ... } and its
+   "h1 small" companion (white-pill background for legibility over the cover
+   photo) are dropped: in the current layout the name sits in normal document
+   flow BELOW the cover image, not overlapping it, so this legibility fix no
+   longer applies to anything. */
+
+/* .public-layout .header .nav-link .optional { display: none; } and
+   .button.logo-button svg { display: none; } are dropped: the old
+   server-rendered public header/nav-bar and the app-download logo button it
+   contained no longer exist in any form. No equivalent. */
+
+.status__content a {
+   font-family: mastodon-font-display,sans-serif;
+   font-weight: normal;
+   font-style: italic;
+   font-size: 115%;
+}
+
+.status__display-name strong {
+   font-family: mastodon-font-display,sans-serif;
+   font-size: 110%;
+   font-weight: bold;
+}
+
+.display-name__account {
+   font-family: mastodon-font-display,sans-serif;
+   font-size: 110%;
+   font-style: italic;
+}
+
+.detailed-status__display-name strong {
+   font-family: mastodon-font-display,sans-serif;
+   font-size: 110%;
+   font-weight: bold;
+}
+
+/* Tin Can Phone Club: black brand accent instead of default purple/indigo.
+   Overrides every semantic variable that traces back to the --color-indigo-*
+   palette (found by grepping for the literal purple hex #5638cc), not just
+   the button background, since text/link/border brand colors are separate
+   variables from the button's background variable. */
+:root {
+   --color-bg-brand-base: #000000;
+   --color-bg-brand-base-hover: #222222;
+   --color-bg-brand-soft: #e6e6e6;
+   --color-bg-brand-softest: #f5f5f5;
+   --color-border-brand-soft: #cccccc;
+   --color-text-brand: #000000;
+   --color-text-brand-on-inverted: #ffffff;
+}
+
+/* Same brand accent, inverted for dark mode: black becomes white so it's
+   actually visible against a dark background, mirroring how Mastodon's own
+   stock theme flips its brand color between light/dark (light purple text
+   on dark backgrounds, dark purple text on light ones). Matches Mastodon's
+   own dark-mode selector exactly (theme/index.scss): dark mode applies when
+   data-color-scheme='dark' is set OR when no preference is set at all. */
+[data-color-scheme='dark'],
+html:not([data-color-scheme]) {
+   --color-bg-brand-base: #ffffff;
+   --color-bg-brand-base-hover: #dddddd;
+   --color-bg-brand-soft: #333333;
+   --color-bg-brand-softest: #222222;
+   --color-border-brand-soft: #444444;
+   --color-text-brand: #ffffff;
+   --color-text-brand-on-inverted: #000000;
+   --color-text-on-brand-base: #000000;
+}
+
+/* @mentions specifically should not be bold, unlike other in-content links
+   (hashtags, URLs) -- higher specificity than ".status__content a" so it
+   wins regardless of source order. */
+.status__content a.mention {
+   font-weight: normal;
+}
+
+/* Force the custom sans-serif font regardless of the "Use system font"
+   preference, which otherwise puts OS system fonts ahead of our web font in
+   the stack (basics.scss's ".system-font &" rule) -- this was silently
+   winning and falling back to whatever the OS resolves as its default sans
+   (Roboto, in this case), rather than TeX Gyre Heros. */
+body, .system-font body {
+   font-family: 'mastodon-font-sans-serif', sans-serif !important;
+}
+
+/* Hide the bookmark button under posts (matching old fork behavior) --
+   hiding the wrapper div, not just the icon, so it doesn't leave an empty
+   gapped slot in the flex layout -- and float the remaining action-bar
+   buttons to the left instead of spreading them evenly across the width. */
+.status__action-bar__button-wrapper:has(.bookmark-icon) {
+   display: none;
+}
+
+/* Tin Can Phone Club: "group chat" philosophy -- one shared feed everyone
+   sees, no fediverse-style discovery. Explore/Trending and Live feeds nav
+   links are already gone via admin settings (trends=false, live feed access
+   disabled), since those are conditionally rendered in React. The persistent
+   "Followed hashtags" nav panel isn't gated by any admin setting though, so
+   it's hidden here instead. Hashtags typed in posts still work normally --
+   only the follow/discovery UI around hashtags is hidden. */
+li.navigation-panel__list-panel:has(a[href="/followed_tags"]) {
+   display: none;
+}
+
+/* "Follow hashtag" button shown at the top of a hashtag's own timeline page. */
+.hashtag-header__header__buttons {
+   display: none;
+}
+
+.status__action-bar {
+   justify-content: flex-start;
+   gap: 28px;
+}
+
+/* The real reason flex-start alone didn't group them left: each button
+   wrapper has flex-grow:1 (components.scss), so they stretch to fill the
+   full width regardless of the parent's justify-content -- there's no
+   leftover space for justify-content to distribute. Override so they only
+   take their natural width. */
+.status__action-bar__button-wrapper {
+   flex-grow: 0;
+   flex-basis: auto;
+}
+
+/* Tin Can Phone Club: everyone is always followers-only now, so the
+   per-post visibility icon is always the same (redundant) lock -- hide it
+   entirely rather than just resizing it. */
+.status__visibility-icon {
+   display: none;
+}
+
+/* Same reasoning: privacy is always forced to followers-only and language
+   tagging is meaningless once we're not federating, so hide both compose
+   toolbar buttons (wrapped together in one container). */
+.compose-form__dropdowns {
+   display: none;
+}
+
+/* "Live feeds" (Local/Federated timelines) nav link. Already gone for
+   regular members via the local/remote_live_feed_access admin settings
+   (disabled), but admins/owners bypass that via a permission flag in the
+   frontend code -- hide it here too so it's gone for literally everyone,
+   admin included, matching the "one shared Home feed" philosophy. */
+li:has(a[href="/public/local"]),
+li:has(a[href="/public/remote"]) {
+   display: none;
+}
+
+/* The "Skip to main navigation" accessibility link -- leaves "Skip to main
+   content" intact, just removes the redundant nav-specific one. */
+li:has(a[href="#skip-link-target-nav"]) {
+   display: none;
+}
+
+/* Desktop nav panel: the wordmark logo sits at the very top, linking to "/",
+   directly above the "Home" link which goes to "/home" -- functionally
+   redundant with each other, and this logo isn't itself the element with
+   id="skip-link-target-nav" (that's just an accessibility anchor point
+   living on this same link, unrelated to the rule above). Hide the whole
+   logo block from the nav; it's not needed as a second "go home" button
+   since the branding already appears elsewhere (favicon, About page). */
+.navigation-panel__logo {
+   display: none !important;
+   height: 0 !important;
+   min-height: 0 !important;
+   margin: 0 !important;
+   padding: 0 !important;
+   overflow: hidden !important;
+}
+
+/* Mobile nav bar (ui__navigation-bar): restore the old 2020-era layout --
+   this bar lived at the TOP of the screen, and "New Post" wasn't one of its
+   inline icons at all; it was a separate classic Material Design floating
+   action button (big, black, circular, bottom-right, pencil icon). */
+.ui__navigation-bar {
+   top: 0;
+   bottom: auto;
+   border-top: none;
+   border-bottom: 1px solid var(--color-border-primary);
+   padding-top: env(safe-area-inset-top);
+   padding-bottom: 0;
+   /* A "filter" or "backdrop-filter" on an ancestor creates a new containing
+      block for any descendant with position:fixed, so the FAB below (a real
+      child of this bar in the DOM) would anchor to THIS box instead of the
+      viewport -- i.e. pinned near the top, not the actual bottom of the
+      screen. Dropping the blur here fixes that; the tradeoff (no frosted-
+      glass effect behind the top bar) is minor compared to the FAB actually
+      floating in the right place. */
+   backdrop-filter: none;
+}
+
+/* Pull just the "New Post" icon (identified by its icon-edit class, set
+   via navigation_bar.tsx) out of the bar's flex/grid flow and turn it into
+   a floating circle. Hardcoded black/white rather than the brand-color
+   variables, since those flip to white-on-transparent in dark mode --
+   this button should always look the same, like the old site's did.
+   border-radius needs !important: the sitewide "flatten everything" rule
+   (flat_ui.scss, one of the original customizations) sets
+   `* { border-radius: 0 !important; }`, which would otherwise force this
+   into a square regardless of this rule's specificity. */
+.ui__navigation-bar__item:has(.icon-edit) {
+   position: fixed;
+   bottom: 1.3125rem;
+   right: 1.3125rem;
+   width: 3.9375rem;
+   height: 3.9375rem;
+   padding: 0;
+   border: none;
+   border-radius: 50% !important;
+   background: #000000;
+   color: #ffffff;
+   box-shadow: 2px 3px 9px rgba(0, 0, 0, 0.4);
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   z-index: 4;
+}
+
+.ui__navigation-bar__item:has(.icon-edit) .icon-edit {
+   width: 32px;
+   height: 32px;
+   color: #ffffff;
+}
+
+/* Mobile hamburger slide-in menu: stock CSS reserves padding-bottom on
+   .navigation-panel__menu for the bar at the bottom of the screen -- now
+   that the bar lives at the top instead, that reserved space needs to move
+   from bottom to top. Applied to the outer .navigation-panel container
+   (not just __menu), since Search and ProfileCard render before __menu in
+   the DOM and would otherwise still sit under the top bar themselves.
+   Scoped to the same breakpoint the bar itself uses (stock CSS hides
+   .ui__navigation-bar at width >= 760px) -- unscoped, this padding was
+   leaking into desktop/wider layouts where there's no top bar to clear at
+   all, showing up as unexplained empty space. */
+@media screen and (width < 760px) {
+   .navigation-panel {
+      padding-top: calc(65px + env(safe-area-inset-top)) !important;
+   }
+}
+
+.navigation-panel__menu {
+   padding-bottom: 0 !important;
+}
+
+/* Tin Can Phone Club: no "who to follow"/discovery-style widgets anywhere,
+   full stop -- this space should feel totally self-contained. Three found
+   via audit, beyond the trends/explore/hashtag work done earlier:
+   1. Suggested accounts injected into the Home timeline between posts.
+   2. The "For you" suggested-accounts tab on /explore (still directly
+      reachable by URL even though the Explore nav link itself is hidden).
+   3. "Followed by X, Y, and Z others you know" on profile pages -- with
+      everyone following everyone here, this would show up constantly and
+      is pure noise, not useful info. */
+.inline-follow-suggestions {
+   display: none;
+}
+
+.explore__suggestions {
+   display: none;
+}
+
+._comp_familiar_followers__wrapper {
+   display: none;
+}
+
+/* Suggested hashtags for your own profile, based on your own post history --
+   self-referential rather than "who to follow", but still an algorithmic
+   suggestion widget. Appears in two places: passively on the profile page
+   itself, and actively while editing your profile. */
+._feat_account_timeline__tagSuggestions,
+._feat_account_edit__tagSuggestions {
+   display: none;
+}
+
+/* Collections editor's "Must follow first" / "Can't be added" grouping
+   headers, shown while searching for accounts to add to a collection --
+   different in kind from the "who to follow" widgets above (this is
+   contextual help within a deliberate search, not unsolicited discovery),
+   but hidden anyway per explicit request to remove anything suggestion-like.
+   The account search/list itself is untouched, just this grouping label. */
+._collections_editor__suggestionGroup {
+   display: none;
+}
+
+/* "@all" broadcast mentions render as a plain <span> (not a real <a> mention
+   link, since it doesn't point at one account) -- styled distinctly with
+   the same Linux Libertine used for display names, no hover-card since
+   there's no single account to preview. */
+.mention-all {
+   font-family: "mastodon-font-display", serif;
+   font-style: italic;
+}
+
+/* Compose toolbar buttons (privacy dropdown, language dropdown) share the
+   .dropdown-button class; icons there read as too small/light next to the
+   adjacent 13px label text in this tighter layout. Same compensation
+   pattern as the visibility icon above. */
+.dropdown-button .icon {
+   transform: scale(1.39);
+}
+
+@font-face {
+    font-family: "league-gothic-condensed";
+    src: url("/fonts/LeagueGothic-Condensed.woff2") format("woff2");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "league-gothic";
+    src: url("/fonts/LeagueGothic.woff2") format("woff2");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+.status-card__title {
+   font-family: "league-gothic-condensed", sans-serif;
+   font-size: 40px;
+   font-weight: 300;
+   line-height: 47px;
+}
+
+/* .status-card__content has uniform 15px padding on all sides; reduce just
+   the top since the title sits directly under it now that .status-card__host
+   (which used to occupy that space) is hidden. */
+.status-card__content {
+   padding-top: 6px;
+}
+
+/* Removed per user request -- the freed space is used by the larger title above. */
+.status-card__host {
+   display: none;
+}
+
+/* Markdown-lite headers ("# Title" / "## Subtitle") typed into posts --
+   the less-condensed League Gothic (not the Condensed cut used for
+   link-preview card titles), per explicit request. */
+.status__content h1 {
+   font-family: "league-gothic-condensed", sans-serif;
+   font-size: 50px;
+   font-weight: 300;
+   line-height: 54px;
+   margin: 4px 0;
+}
+
+.status__content h2 {
+   font-family: "league-gothic", sans-serif;
+   font-size: 35px;
+   font-weight: 300;
+   line-height: 39px;
+   margin: 4px 0;
+}

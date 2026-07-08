@@ -55,6 +55,7 @@ class SiteUpload < ApplicationRecord
     }.freeze,
 
     mascot: {}.freeze,
+    hero: {}.freeze,
   }.freeze
 
   has_attached_file :file, styles: ->(file) { STYLES[file.instance.var.to_sym] }, convert_options: { all: '-coalesce +profile "!icc,*" +set date:modify +set date:create +set date:timestamp' }, processors: [:lazy_thumbnail, :blurhash_transcoder, :type_corrector]

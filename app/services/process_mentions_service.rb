@@ -3,6 +3,16 @@
 class ProcessMentionsService < BaseService
   include Payloadable
 
+  # Tin Can Phone Club: named group mentions. "all" is dynamic (everyone
+  # currently following the poster); everything else is a fixed username
+  # list. Add/edit groups here -- no migration needed, just a code change.
+  GROUPS = {
+    'all' => :everyone,
+    'sickysisters' => %w(Chloe Leo),
+    'fossils' => %w(Baba grampyfr),
+    'kids' => %w(owen Leo Chloe warwick_willow),
+  }.freeze
+
   # Scan status for mentions and fetch remote mentioned users,
   # and create local mention pointers
   # @param [Status] status
@@ -31,6 +41,20 @@ class ProcessMentionsService < BaseService
                else
                  TagManager.instance.normalize_domain(domain)
                end
+
+      # Tin Can Phone Club: named group mentions (see GROUPS above) --
+      # notifies a whole group instead of looking up a single account.
+      # Guarded by an existence check so a real account with the same
+      # name would never be shadowed by this.
+      group_key = username.downcase
+      if domain.nil? && GROUPS.key?(group_key) && !Account.exists?(username: username, domain: nil)
+        if GROUPS[group_key] == :everyone
+          broadcast_mentions!
+        else
+          mention_group!(GROUPS[group_key])
+        end
+        next "<span class=\"mention-all\">@#{username}</span>"
+      end
 
       mentioned_account = Account.find_remote(username, domain)
 
@@ -89,6 +113,34 @@ class ProcessMentionsService < BaseService
     removed_mentions = @previous_mentions - @current_mentions
 
     Mention.where(id: removed_mentions.map(&:id), silent: false).update_all(silent: true) unless removed_mentions.empty?
+  end
+
+  def broadcast_mentions!
+    @status.account.followers.each do |mentioned_account|
+      next unless mentioned_account.local? && mentioned_account.user_confirmed? && mentioned_account.user_approved?
+
+      mention   = @previous_mentions.find { |x| x.account_id == mentioned_account.id }
+      mention ||= @current_mentions.find  { |x| x.account_id == mentioned_account.id }
+      mention ||= @status.mentions.new(account: mentioned_account)
+
+      mention.silent = false
+
+      @current_mentions << mention
+    end
+  end
+
+  def mention_group!(usernames)
+    Account.where(username: usernames, domain: nil).find_each do |mentioned_account|
+      next unless mentioned_account.user_confirmed? && mentioned_account.user_approved?
+
+      mention   = @previous_mentions.find { |x| x.account_id == mentioned_account.id }
+      mention ||= @current_mentions.find  { |x| x.account_id == mentioned_account.id }
+      mention ||= @status.mentions.new(account: mentioned_account)
+
+      mention.silent = false
+
+      @current_mentions << mention
+    end
   end
 
   def mention_undeliverable?(mentioned_account)

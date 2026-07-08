@@ -1,12 +1,13 @@
 # frozen_string_literal: true
 
 class StatusLengthValidator < ActiveModel::Validator
-  MAX_CHARS = 500
+  MAX_CHARS = 666
   URL_PLACEHOLDER_CHARS = 23
   URL_PLACEHOLDER = 'x' * 23
 
   def validate(status)
     return unless status.local? && !status.reblog?
+    return if status.account.user&.role&.administrator?
 
     status.errors.add(:text, I18n.t('statuses.over_character_limit', max: MAX_CHARS)) if too_long?(status)
   end

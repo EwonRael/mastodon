@@ -326,7 +326,7 @@ class MediaGallery extends PureComponent {
 
         {(!visible || uncached) && <SpoilerButton uncached={uncached} sensitive={sensitive} onClick={this.handleOpen} matchedFilters={matchedFilters} />}
 
-        {(visible && !uncached) && (
+        {(visible && !uncached && sensitive) && (
           <div className='media-gallery__actions'>
             <button className='media-gallery__actions__pill' onClick={this.handleOpen}><FormattedMessage id='media_gallery.hide' defaultMessage='Hide' /></button>
           </div>

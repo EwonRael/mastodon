@@ -12,6 +12,8 @@ import { length } from 'stringz';
 
 import { missingAltTextModal } from 'mastodon/initial_state';
 
+import { identityContextPropShape, withIdentity } from 'mastodon/identity_context';
+
 import AutosuggestInput from 'mastodon/components/autosuggest_input';
 import AutosuggestTextarea from 'mastodon/components/autosuggest_textarea';
 import { Button } from 'mastodon/components/button';
@@ -46,6 +48,7 @@ const messages = defineMessages({
 class ComposeForm extends ImmutablePureComponent {
   static propTypes = {
     intl: PropTypes.object.isRequired,
+    identity: identityContextPropShape,
     text: PropTypes.string.isRequired,
     suggestions: ImmutablePropTypes.list,
     spoiler: PropTypes.bool,
@@ -122,10 +125,14 @@ class ComposeForm extends ImmutablePureComponent {
   };
 
   canSubmit = () => {
-    const { isSubmitting, isChangingUpload, isUploading, maxChars } = this.props;
+    const { isSubmitting, isChangingUpload, isUploading, maxChars, identity } = this.props;
     const fulltext = this.getFulltextForCharacterCounting();
+    // administrator permission flag is bit 0 (1 << 0) -- see UserRole::FLAGS
+    // in the backend. Admins can post over the character limit; everyone
+    // else is still blocked client-side same as before.
+    const isAdmin = ((identity?.permissions ?? 0) & 1) === 1;
 
-    return !(isSubmitting || isUploading || isChangingUpload || length(fulltext) > maxChars);
+    return !(isSubmitting || isUploading || isChangingUpload || (length(fulltext) > maxChars && !isAdmin));
   };
 
   handleSubmit = (e) => {
@@ -353,4 +360,4 @@ class ComposeForm extends ImmutablePureComponent {
 
 }
 
-export default injectIntl(ComposeForm);
+export default withIdentity(injectIntl(ComposeForm));
