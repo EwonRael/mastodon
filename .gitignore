@@ -79,3 +79,8 @@ docker-compose.override.yml
 
 *storybook.log
 storybook-static
+
+# Local-only operational docs -- deliberately never pushed to GitHub
+/CLAUDE.md
+/SITE_GUIDE.md
+/UPDATING_MASTODON.md
