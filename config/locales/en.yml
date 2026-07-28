@@ -31,6 +31,7 @@ en:
     account_actions:
       action: Perform action
       already_silenced: This account has already been limited.
+      already_sleeping: This account is already asleep.
       already_suspended: This account has already been suspended.
       title: Perform moderation action on %{acct}
     account_moderation_notes:
@@ -51,6 +52,12 @@ en:
         new_email: New email
         submit: Change email
         title: Change email for %{username}
+      change_password:
+        changed_msg: Password successfully changed!
+        label: Set password
+        new_password: New password
+        submit: Set password
+        title: Set password for %{username}
       change_role:
         changed_msg: Role successfully changed!
         edit_roles: Manage user roles
@@ -103,6 +110,7 @@ en:
         disabled: Disabled
         pending: Pending
         silenced: Limited
+        sleeping: Asleep
         suspended: Suspended
         title: Moderation
       moderation_notes: Moderation notes
@@ -137,7 +145,7 @@ en:
         send: Resend confirmation link
         success: Confirmation link successfully sent!
       reset: Reset
-      reset_password: Reset password
+      reset_password: Send reset password email
       resubscribe: Resubscribe
       role: Role
       search: Search
@@ -155,6 +163,8 @@ en:
         targeted_reports: Reported by others
       silence: Limit
       silenced: Limited
+      sleep: Put to sleep
+      sleeping: Asleep
       statuses: Posts
       strikes: Previous strikes
       subscribe: Subscribe
@@ -174,15 +184,18 @@ en:
       unsuspended_msg: Successfully unsuspended %{username}'s account
       username: Username
       view_domain: View summary for domain
+      wake: Wake up
       warn: Warn
       web: Web
       whitelisted: Allowed for federation
+      woken_msg: Successfully woke up %{username}'s account
     action_logs:
       action_types:
         approve_appeal: Approve Appeal
         approve_user: Approve User
         assigned_to_self_report: Assign Report
         change_email_user: Change Email for User
+        change_password_user: Set Password for User
         change_role_user: Change Role of User
         confirm_user: Confirm User
         create_account_warning: Create Warning
@@ -232,6 +245,7 @@ en:
         resolve_report: Resolve Report
         sensitive_account: Force-Sensitive Account
         silence_account: Limit Account
+        sleep_account: Sleep Account
         suspend_account: Suspend Account
         unassigned_report: Unassign Report
         unblock_email_account: Unblock email address
@@ -246,11 +260,13 @@ en:
         update_status: Update Post
         update_user_role: Update Role
         update_username_block: Update Username Rule
+        wake_account: Wake Account
       actions:
         approve_appeal_html: "%{name} approved moderation decision appeal from %{target}"
         approve_user_html: "%{name} approved sign-up from %{target}"
         assigned_to_self_report_html: "%{name} assigned report %{target} to themselves"
         change_email_user_html: "%{name} changed the email address of user %{target}"
+        change_password_user_html: "%{name} changed the password of user %{target}"
         change_role_user_html: "%{name} changed role of %{target}"
         confirm_user_html: "%{name} confirmed email address of user %{target}"
         create_account_warning_html: "%{name} sent a warning to %{target}"
@@ -301,6 +317,7 @@ en:
         resolve_report_html: "%{name} resolved report %{target}"
         sensitive_account_html: "%{name} marked %{target}'s media as sensitive"
         silence_account_html: "%{name} limited %{target}'s account"
+        sleep_account_html: "%{name} put %{target}'s account to sleep"
         suspend_account_html: "%{name} suspended %{target}'s account"
         unassigned_report_html: "%{name} unassigned report %{target}"
         unblock_email_account_html: "%{name} unblocked %{target}'s email address"
@@ -316,6 +333,7 @@ en:
         update_status_html: "%{name} updated post by %{target}"
         update_user_role_html: "%{name} changed %{target} role"
         update_username_block_html: "%{name} updated rule for usernames containing %{target}"
+        wake_account_html: "%{name} woke %{target}'s account up"
       deleted_account: deleted account
       empty: No logs found.
       filter_by_action: Filter by action
@@ -856,7 +874,7 @@ en:
         moderation: Moderation
         special: Special
       delete: Delete
-      description_html: With <strong>user roles</strong>, you can customize which functions and areas of Mastodon your users can access.
+      description_html: With <strong>user roles</strong>, you can customize which functions and areas of Tin Can Phone Club your users can access.
       edit: Edit '%{name}' role
       everyone: Default permissions
       everyone_full_description_html: This is the <strong>base role</strong> affecting <strong>all users</strong>, even those without an assigned role. All other roles inherit permissions from it.
@@ -932,10 +950,10 @@ en:
         rules_hint: There is a dedicated area for rules that your users are expected to adhere to.
         title: About
       allow_referrer_origin:
-        desc: When your users click links to external sites, their browser may send the address of your Mastodon server as the referrer. Disable this if this would uniquely identify your users, e.g. if this is a personal Mastodon server.
-        title: Allow external sites to see your Mastodon server as a traffic source
+        desc: When your users click links to external sites, their browser may send the address of your Tin Can Phone Club server as the referrer. Disable this if this would uniquely identify your users, e.g. if this is a personal Tin Can Phone Club server.
+        title: Allow external sites to see your Tin Can Phone Club server as a traffic source
       appearance:
-        preamble: Customize Mastodon's web interface.
+        preamble: Customize Tin Can Phone Club's web interface.
         title: Appearance
       branding:
         preamble: Your server's branding differentiates it from other servers in the network. This information may be displayed across a variety of environments, such as Mastodon's web interface, native applications, in link previews on other websites and within messaging apps, and so on. For this reason, it is best to keep this information clear, short and concise.
@@ -945,7 +963,7 @@ en:
         title: Require new users to solve a CAPTCHA to confirm their account
       content_retention:
         danger_zone: Danger zone
-        preamble: Control how user-generated content is stored in Mastodon.
+        preamble: Control how user-generated content is stored in Tin Can Phone Club.
         title: Content retention
       default_noindex:
         desc_html: Affects all users who have not changed this setting themselves
@@ -1053,6 +1071,7 @@ en:
         none: "%{name} sent a warning to %{target}"
         sensitive: "%{name} marked %{target}'s account as sensitive"
         silence: "%{name} limited %{target}'s account"
+        sleep: "%{name} put %{target}'s account to sleep"
         suspend: "%{name} suspended %{target}'s account"
       appeal_approved: Appealed
       appeal_pending: Appeal pending
@@ -1284,6 +1303,7 @@ en:
         none: a warning
         sensitive: to mark their account as sensitive
         silence: to limit their account
+        sleep: to put their account to sleep
         suspend: to suspend their account
       body: "%{target} is appealing a moderation decision by %{action_taken_by} from %{date}, which was %{type}. They wrote:"
       next_steps: You can approve the appeal to undo the moderation decision, or ignore it.
@@ -1362,8 +1382,8 @@ en:
     delete_account: Delete account
     delete_account_html: If you wish to delete your account, you can <a href="%{path}">proceed here</a>. You will be asked for confirmation.
     description:
-      prefix_invited_by_user: "@%{name} invites you to join this server of Mastodon!"
-      prefix_sign_up: Sign up on Mastodon today!
+      prefix_invited_by_user: "@%{name} invites you to join this server of Tin Can Phone Club!"
+      prefix_sign_up: Sign up on Tin Can Phone Club today!
       suffix: With an account, you will be able to follow people, post updates and exchange messages with users from any Mastodon server and more!
     didnt_get_confirmation: Didn't receive a confirmation link?
     dont_have_your_security_key: Don't have your security key?
@@ -1403,7 +1423,7 @@ en:
     set_new_password: Set new password
     setup:
       email_below_hint_html: Check your spam folder, or request another one. You can correct your email address if it's wrong.
-      email_settings_hint_html: Click the link we sent to %{email} to begin using Mastodon. We'll wait right here.
+      email_settings_hint_html: Click the link we sent to %{email} to begin using Tin Can Phone Club. We'll wait right here.
       link_not_received: Didn't get a link?
       new_confirmation_instructions_sent: You will receive a new email with the confirmation link in a few minutes!
       title: Check your inbox
@@ -1412,7 +1432,7 @@ en:
       title: Login to %{domain}
     sign_up:
       manual_review: Sign-ups on %{domain} go through manual review by our moderators. To help us process your registration, write a bit about yourself and why you want an account on %{domain}.
-      preamble: With an account on this Mastodon server, you'll be able to follow any other person on the fediverse, regardless of where their account is hosted.
+      preamble: With an account on this Tin Can Phone Club server, you'll be able to follow any other person on the fediverse, regardless of where their account is hosted.
       title: Let's get you set up on %{domain}.
     status:
       account_status: Account status
@@ -1510,6 +1530,7 @@ en:
         none: Warning
         sensitive: Marking of account as sensitive
         silence: Limitation of account
+        sleep: Account put to sleep
         suspend: Suspension of account
       your_appeal_approved: Your appeal has been approved
       your_appeal_pending: You have submitted an appeal
@@ -1528,7 +1549,7 @@ en:
       subject: Confirm your email address
       title: Get email updates from %{name}?
     notification:
-      create_account: Create a Mastodon account
+      create_account: Create a Tin Can Phone Club account
       footer:
         privacy_html: Emails are sent from %{domain}, a server powered by Mastodon. To understand how this server processes your personal data, refer to the <a href="%{privacy_policy_path}">Privacy Policy</a>.
         reason_for_email_html: You're receiving this email because you opted into email updates from %{name}. Don't want to receive these emails? <a href="%{unsubscribe_path}">Unsubscribe</a>
@@ -1569,7 +1590,7 @@ en:
       title: Security verification failed
     '429': Too many requests
     '500':
-      content: We're sorry, but something went wrong on our end.
+      content: Temporarily down because I'm messing with the code.
       title: This page is not correct
     '503': The page could not be served due to a temporary server failure.
     noscript_html: To use the Mastodon web application, please enable JavaScript. Alternatively, try one of the <a href="%{apps_path}">native apps</a> for Mastodon for your platform.
@@ -1855,7 +1876,7 @@ en:
     collection_update:
       title_html: "%{name} updated a collection you are in"
     generic:
-      sign_in: Sign in to the Mastodon web app
+      sign_in: Sign in to the Tin Can Phone Club web app
       summary_html: You're on an app that does not support the most recent version of Mastodon. %{link} for full functionality.
     moderation_warning:
       summary_html: You're on an app that does not support the most recent version of Mastodon. %{link}.
@@ -1957,7 +1978,7 @@ en:
     public_timelines: Public timelines
   privacy:
     email_subscriptions: Send posts via email
-    email_subscriptions_hint_html: Add an email sign-up form to your profile that appears for logged-out users. When visitors enter their email address and opt in, Mastodon will send email updates for your public posts.
+    email_subscriptions_hint_html: Add an email sign-up form to your profile that appears for logged-out users. When visitors enter their email address and opt in, Tin Can Phone Club will send email updates for your public posts.
     hint_html: "<strong>Customize how you want your profile and your posts to be found.</strong> A variety of features in Mastodon can help you reach a wider audience when enabled. Take a moment to review these settings to make sure they fit your use case."
     privacy: Privacy
     privacy_hint_html: Control how much you want to disclose for the benefit of others. People discover interesting profiles and cool apps by browsing other people's follows and seeing which apps they post from, but you may prefer to keep it hidden.
@@ -2039,7 +2060,7 @@ en:
     current_session: Current session
     date: Date
     description: "%{browser} on %{platform}"
-    explanation: These are the web browsers currently logged in to your Mastodon account.
+    explanation: These are the web browsers currently logged in to your Tin Can Phone Club account.
     ip: IP
     platforms:
       adobe_air: Adobe Air
@@ -2065,7 +2086,7 @@ en:
     aliases: Account aliases
     appearance: Appearance
     authorized_apps: Authorized apps
-    back: Back to Mastodon
+    back: Back to Tin Can Phone Club
     delete: Account deletion
     development: Development
     edit_profile: Edit profile
@@ -2219,7 +2240,7 @@ en:
     recovery_codes_regenerated: Recovery codes successfully regenerated
     recovery_instructions_html: If you ever lose access to your phone, you can use one of the recovery codes below to regain access to your account. <strong>Keep the recovery codes safe</strong>. For example, you may print them and store them with other important documents.
     resume_app_authorization: Resume application authorization
-    role_requirement: "%{domain} requires you to set up Two-Factor Authentication before you can use Mastodon."
+    role_requirement: "%{domain} requires you to set up Two-Factor Authentication before you can use Tin Can Phone Club."
     webauthn: Security keys
   unsubscriptions:
     create:
@@ -2228,7 +2249,7 @@ en:
         confirmation_html: You'll no longer receive emails from %{name}.
       title: You are unsubscribed
       user:
-        confirmation_html: You'll no longer receive %{type} from Mastodon on %{domain}.
+        confirmation_html: You'll no longer receive %{type} from Tin Can Phone Club on %{domain}.
     notification_emails:
       favourite: favorite notification emails
       follow: follow notification emails
@@ -2241,7 +2262,7 @@ en:
         confirmation_html: You'll stop receiving emails when this account publishes new posts.
         title: Unsubscribe from %{name}?
       user:
-        confirmation_html: You'll stop receiving %{type} from Mastodon on %{domain}.
+        confirmation_html: You'll stop receiving %{type} from Tin Can Phone Club on %{domain}.
         title: Unsubscribe from %{type}?
   user_mailer:
     announcement_published:
@@ -2260,7 +2281,7 @@ en:
       subtitle: Your appeal has been rejected.
       title: Appeal rejected
     backup_ready:
-      explanation: You requested a full backup of your Mastodon account.
+      explanation: You requested a full backup of your Tin Can Phone Club account.
       extra: It's now ready for download!
       subject: Your archive is ready for download
       title: Archive takeout
@@ -2298,6 +2319,7 @@ en:
         mark_statuses_as_sensitive: Some of your posts have been marked as sensitive by the moderators of %{instance}. This means that people will need to tap the media in the posts before a preview is displayed. You can mark media as sensitive yourself when posting in the future.
         sensitive: From now on, all your uploaded media files will be marked as sensitive and hidden behind a click-through warning.
         silence: You can still use your account but only people who are already following you will see your posts on this server, and you may be excluded from various discovery features. However, others may still manually follow you.
+        sleep: Your profile has been hidden, as if your account no longer existed. You can still log in as normal, and the moment you do anything with your account again it will wake back up and become visible on its own — no need to contact anyone.
         suspend: You can no longer use your account, and your profile and other data are no longer accessible. You can still login to request a backup of your data until the data is fully removed in about 30 days, but we will retain some basic data to prevent you from evading the suspension.
       reason: 'Reason:'
       statuses: 'Posts cited:'
@@ -2308,6 +2330,7 @@ en:
         none: Warning for %{acct}
         sensitive: Your posts on %{acct} will be marked as sensitive from now on
         silence: Your account %{acct} has been limited
+        sleep: Your account %{acct} has been put to sleep
         suspend: Your account %{acct} has been suspended
       title:
         delete_statuses: Posts removed
@@ -2316,6 +2339,7 @@ en:
         none: Warning
         sensitive: Account marked as sensitive
         silence: Account limited
+        sleep: Account asleep
         suspend: Account suspended
     welcome:
       apps_android_action: Get it on Google Play
@@ -2352,10 +2376,10 @@ en:
       post_action: Compose
       post_step: Say hello to the world with text, photos, videos, or polls.
       post_title: Make your first post
-      share_step: Let your friends know how to find you on Mastodon.
-      share_title: Share your Mastodon profile
+      share_step: Let your friends know how to find you on Tin Can Phone Club.
+      share_title: Share your Tin Can Phone Club profile
       sign_in_action: Sign in
-      subject: Welcome to Mastodon
+      subject: Welcome to Tin Can Phone Club
       title: Welcome aboard, %{name}!
   users:
     follow_limit_reached: You cannot follow more than %{limit} people
@@ -2392,5 +2416,5 @@ en:
     otp_required: To use security keys please enable two-factor authentication first.
     registered_on: Registered on %{date}
   wrapstodon:
-    description: See how %{name} used Mastodon this year!
+    description: See how %{name} used Tin Can Phone Club this year!
     title: Wrapstodon %{year} for %{name}

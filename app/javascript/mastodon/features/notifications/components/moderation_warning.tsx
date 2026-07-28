@@ -32,6 +32,10 @@ const messages = defineMessages({
     id: 'notification.moderation_warning.action_silence',
     defaultMessage: 'Your account has been limited.',
   },
+  sleep: {
+    id: 'notification.moderation_warning.action_sleep',
+    defaultMessage: 'Your account has been put to sleep.',
+  },
   suspend: {
     id: 'notification.moderation_warning.action_suspend',
     defaultMessage: 'Your account has been suspended.',

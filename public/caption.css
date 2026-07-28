@@ -1,0 +1,260 @@
+/* Same font files/faces as the main site (public/fonts/), so
+   mastodon-font-sans-serif/mastodon-font-display below actually resolve
+   instead of silently falling back to a generic font. Sans-serif faces
+   updated to Work Sans UI to match custom.css's swap on the main site. */
+@font-face {
+    font-family: "mastodon-font-display";
+    src: url("/fonts/LinLibertine_R.otf") format("opentype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "mastodon-font-display";
+    src: url("/fonts/LinLibertine_RI.otf") format("opentype");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "mastodon-font-display";
+    src: url("/fonts/LinLibertine_RB.otf") format("opentype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "mastodon-font-display";
+    src: url("/fonts/LinLibertine_RBI.otf") format("opentype");
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "mastodon-font-sans-serif";
+    src: url("/fonts/worksansui-regular.ttf") format("truetype");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "mastodon-font-sans-serif";
+    src: url("/fonts/worksansui-italic.ttf") format("truetype");
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "mastodon-font-sans-serif";
+    src: url("/fonts/worksansui-bold.ttf") format("truetype");
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "mastodon-font-sans-serif";
+    src: url("/fonts/worksansui-bolditalic.ttf") format("truetype");
+    font-weight: 700;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "league-gothic";
+    src: url("/fonts/LeagueGothic.woff2") format("woff2");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: "league-gothic-condensed";
+    src: url("/fonts/LeagueGothic-Condensed.woff2") format("woff2");
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    font-family: mastodon-font-sans-serif, sans-serif;
+    max-width: 40em;
+    margin: 2em auto;
+    padding: 0 1em;
+}
+
+h1 {
+    font-family: "league-gothic-condensed", sans-serif;
+    font-size: 70px;
+    font-weight: 400;
+    text-transform: uppercase;
+    
+}
+
+h2 {
+    font-family: league-gothic, sans;
+    font-size: 35px;
+    font-weight: 400;
+}
+
+img {
+    width: 100%;
+    height: auto;
+    max-height: 90vh;
+    object-fit: contain;
+    margin: auto;
+    display: block;
+    margin-bottom: 1em;
+    box-sizing: border-box;
+}
+
+/* Matches the main site's compose-box input exactly (components.scss's
+   ".compose-form__highlightable"): light grey border by default, background
+   tinted the same neutral grey, border turning brand-black/white on focus. */
+textarea {
+    width: 100%;
+    font: inherit;
+    box-sizing: border-box;
+    margin-top: 0.5em;
+    padding: 12px;
+    border-radius: 0;
+    background: #f6f6f9;
+    border: 1px solid #d7d6e1;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #000000;
+}
+
+@media (prefers-color-scheme: dark) {
+    textarea {
+        background: #21212c;
+        border-color: #3a3a50;
+        color: #ffffff;
+    }
+
+    textarea:focus {
+        border-color: #ffffff;
+    }
+}
+
+.button-row {
+    overflow: auto;
+    margin-top: 0.5em;
+}
+
+.submit-caption {
+    float: right;
+}
+
+/* Matches the main site's ".button" component exactly, including its black
+   brand-color override (custom.css's ":root" rule) and the dark-mode flip to
+   white/black -- this page has no theme toggle of its own, so we key the
+   dark variant off the OS-level preference instead. */
+input[type="submit"] {
+    appearance: none;
+    -webkit-appearance: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    border: 1px solid transparent;
+    border-radius: 0;
+    cursor: pointer;
+    font-family: mastodon-font-sans-serif, sans-serif;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 22px;
+    padding: 6px 17px;
+    text-align: center;
+    background-color: #000000;
+    color: #ffffff;
+}
+
+input[type="submit"]:active,
+input[type="submit"]:focus,
+input[type="submit"]:hover {
+    background-color: #222222;
+}
+
+@media (prefers-color-scheme: dark) {
+    input[type="submit"] {
+        background-color: #ffffff;
+        color: #000000;
+    }
+
+    input[type="submit"]:active,
+    input[type="submit"]:focus,
+    input[type="submit"]:hover {
+        background-color: #dddddd;
+    }
+}
+
+/* Matches the main site's poll results styling exactly (polls.scss): a
+   normalized bar under each row, except the number above the bar is the
+   caption count instead of a vote percent, and the label is the person's
+   name instead of a poll option. */
+.poll {
+    margin-top: 16px;
+    font-size: 14px;
+}
+
+.poll ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.poll li {
+    margin-bottom: 10px;
+    position: relative;
+}
+
+.poll__option {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 6px 0;
+    line-height: 18px;
+}
+
+.poll__number {
+    display: inline-block;
+    width: 45px;
+    font-weight: 700;
+    flex: 0 0 45px;
+}
+
+.poll__option__text {
+    display: inline-block;
+    overflow-wrap: break-word;
+}
+
+.poll__chart {
+    border-radius: 4px;
+    display: block;
+    background: rgba(0, 0, 0, 0.6);
+    height: 5px;
+    min-width: 1%;
+}
+
+.poll__chart.leading {
+    background: #000000;
+}
+
+@media (prefers-color-scheme: dark) {
+    .poll__chart {
+        background: rgba(255, 255, 255, 0.6);
+    }
+
+    .poll__chart.leading {
+        background: #ffffff;
+    }
+}

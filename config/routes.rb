@@ -15,6 +15,11 @@ def redirect_with_vary(path)
 end
 
 Rails.application.routes.draw do
+  constraints subdomain: 'caption' do
+    get '/', to: 'captions#show', as: :captions_root
+    post '/', to: 'captions#update'
+  end
+
   root 'home#index'
 
   mount LetterOpenerWeb::Engine, at: 'letter_opener' if Rails.env.development?

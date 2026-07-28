@@ -11,6 +11,7 @@ Warden::Manager.after_set_user except: :fetch do |user, warden|
     expires: 1.year.from_now,
     httponly: true,
     same_site: :lax,
+    domain: :all, # shared across subdomains (e.g. caption.tincanphone.club) so login carries over
   }
 end
 
@@ -25,6 +26,7 @@ Warden::Manager.after_fetch do |user, warden|
       expires: 1.year.from_now,
       httponly: true,
       same_site: :lax,
+      domain: :all, # shared across subdomains (e.g. caption.tincanphone.club) so login carries over
     }
   else
     warden.logout

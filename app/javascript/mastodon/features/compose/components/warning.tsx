@@ -7,22 +7,18 @@ import { animated, useSpring } from '@react-spring/web';
 import { me } from 'mastodon/initial_state';
 import { useAppSelector } from 'mastodon/store';
 import type { RootState } from 'mastodon/store';
-import { HASHTAG_PATTERN_REGEX } from 'mastodon/utils/hashtags';
 
 const selector = createSelector(
   (state: RootState) => state.compose.get('privacy') as string,
   (state: RootState) => !!state.accounts.getIn([me, 'locked']),
-  (state: RootState) => state.compose.get('text') as string,
-  (privacy, locked, text) => ({
+  (privacy, locked) => ({
     needsLockWarning: privacy === 'private' && !locked,
-    hashtagWarning: privacy !== 'public' && HASHTAG_PATTERN_REGEX.test(text),
     directMessageWarning: privacy === 'direct',
   }),
 );
 
 export const Warning = () => {
-  const { needsLockWarning, hashtagWarning, directMessageWarning } =
-    useAppSelector(selector);
+  const { needsLockWarning, directMessageWarning } = useAppSelector(selector);
   if (needsLockWarning) {
     return (
       <WarningMessage>
@@ -39,17 +35,6 @@ export const Warning = () => {
               </a>
             ),
           }}
-        />
-      </WarningMessage>
-    );
-  }
-
-  if (hashtagWarning) {
-    return (
-      <WarningMessage>
-        <FormattedMessage
-          id='compose_form.hashtag_warning'
-          defaultMessage="This post won't be listed under any hashtag as it is unlisted. Only public posts can be searched by hashtag."
         />
       </WarningMessage>
     );

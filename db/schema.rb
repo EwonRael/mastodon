@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_06_11_150940) do
+ActiveRecord::Schema[8.1].define(version: 2026_07_10_210000) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -200,6 +200,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_11_150940) do
     t.boolean "show_media", default: true, null: false
     t.boolean "show_media_replies", default: true, null: false
     t.datetime "silenced_at", precision: nil
+    t.datetime "sleeping_at", precision: nil
     t.datetime "suspended_at", precision: nil
     t.integer "suspension_origin"
     t.boolean "trendable"
@@ -357,6 +358,15 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_11_150940) do
     t.datetime "updated_at", null: false
     t.index ["canonical_email_hash"], name: "index_canonical_email_blocks_on_canonical_email_hash", unique: true
     t.index ["reference_account_id"], name: "index_canonical_email_blocks_on_reference_account_id"
+  end
+
+  create_table "caption_submissions", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.bigint "media_attachment_id"
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_caption_submissions_on_account_id"
+    t.index ["media_attachment_id"], name: "index_caption_submissions_on_media_attachment_id"
   end
 
   create_table "collection_items", id: :bigint, default: -> { "timestamp_id('collection_items'::text)" }, force: :cascade do |t|
@@ -1490,6 +1500,8 @@ ActiveRecord::Schema[8.1].define(version: 2026_06_11_150940) do
   add_foreign_key "bulk_import_rows", "bulk_imports", on_delete: :cascade
   add_foreign_key "bulk_imports", "accounts", on_delete: :cascade
   add_foreign_key "canonical_email_blocks", "accounts", column: "reference_account_id", on_delete: :cascade
+  add_foreign_key "caption_submissions", "accounts", on_delete: :cascade
+  add_foreign_key "caption_submissions", "media_attachments", on_delete: :nullify
   add_foreign_key "collection_items", "accounts"
   add_foreign_key "collection_items", "collections", on_delete: :cascade
   add_foreign_key "collection_reports", "collections", on_delete: :cascade

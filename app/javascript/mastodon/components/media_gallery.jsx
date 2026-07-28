@@ -16,6 +16,7 @@ import { SpoilerButton } from 'mastodon/components/spoiler_button';
 import { formatTime } from 'mastodon/features/video';
 
 import { autoPlayGif, displayMedia, useBlurhash } from '../initial_state';
+import { containsHighlightTerm } from '../utils/search_highlight';
 
 class Item extends PureComponent {
 
@@ -29,12 +30,15 @@ class Item extends PureComponent {
     displayWidth: PropTypes.number,
     visible: PropTypes.bool.isRequired,
     autoplay: PropTypes.bool,
+    moreCount: PropTypes.number,
+    highlightTerms: PropTypes.arrayOf(PropTypes.string),
   };
 
   static defaultProps = {
     standalone: false,
     index: 0,
     size: 1,
+    moreCount: 0,
   };
 
   state = {
@@ -88,9 +92,15 @@ class Item extends PureComponent {
   };
 
   render () {
-    const { attachment, lang, index, size, standalone, displayWidth, visible } = this.props;
+    const { attachment, lang, index, size, standalone, displayWidth, visible, moreCount, highlightTerms } = this.props;
 
     let badges = [], thumbnail;
+
+    const moreOverlay = moreCount > 0 && (
+      <div className='media-gallery__item__overlay media-gallery__item__overlay--more'>
+        <span>+{moreCount}</span>
+      </div>
+    );
 
     let width  = 50;
     let height = 100;
@@ -106,7 +116,7 @@ class Item extends PureComponent {
     const description = attachment.getIn(['translation', 'description']) || attachment.get('description');
 
     if (description?.length > 0) {
-      badges.push(<AltTextBadge key='alt' description={description} />);
+      badges.push(<AltTextBadge key='alt' description={description} className={containsHighlightTerm(description, highlightTerms) ? 'media-gallery__alt__label--has-match' : undefined} />);
     }
 
     if (attachment.get('type') === 'unknown') {
@@ -119,6 +129,8 @@ class Item extends PureComponent {
               dummy={!useBlurhash}
             />
           </a>
+
+          {moreOverlay}
         </div>
       );
     } else if (attachment.get('type') === 'image') {
@@ -206,6 +218,8 @@ class Item extends PureComponent {
             {badges}
           </div>
         )}
+
+        {visible && moreOverlay}
       </div>
     );
   }
@@ -227,6 +241,7 @@ class MediaGallery extends PureComponent {
     autoplay: PropTypes.bool,
     onToggleVisibility: PropTypes.func,
     matchedFilters: PropTypes.arrayOf(PropTypes.string),
+    highlightTerms: PropTypes.arrayOf(PropTypes.string),
   };
 
   state = {
@@ -297,7 +312,7 @@ class MediaGallery extends PureComponent {
   }
 
   render () {
-    const { media, lang, sensitive, defaultWidth, autoplay, matchedFilters } = this.props;
+    const { media, lang, sensitive, defaultWidth, autoplay, matchedFilters, highlightTerms } = this.props;
     const { visible } = this.state;
     const width = this.state.width || defaultWidth;
 
@@ -311,13 +326,14 @@ class MediaGallery extends PureComponent {
       style.aspectRatio = '3 / 2';
     }
 
-    const size     = media.size;
-    const uncached = media.every(attachment => attachment.get('type') === 'unknown');
+    const uncached  = media.every(attachment => attachment.get('type') === 'unknown');
+    const size      = Math.min(media.size, 4);
+    const moreCount = media.size - size;
 
     if (this.isFullSizeEligible()) {
-      children = <Item standalone autoplay={autoplay} onClick={this.handleClick} attachment={media.get(0)} lang={lang} displayWidth={width} visible={visible} />;
+      children = <Item standalone autoplay={autoplay} onClick={this.handleClick} attachment={media.get(0)} lang={lang} displayWidth={width} visible={visible} highlightTerms={highlightTerms} />;
     } else {
-      children = media.map((attachment, i) => <Item key={attachment.get('id')} autoplay={autoplay} onClick={this.handleClick} attachment={attachment} index={i} lang={lang} size={size} displayWidth={width} visible={visible || uncached} />);
+      children = media.take(size).map((attachment, i) => <Item key={attachment.get('id')} autoplay={autoplay} onClick={this.handleClick} attachment={attachment} index={i} lang={lang} size={size} displayWidth={width} visible={visible || uncached} moreCount={i === size - 1 ? moreCount : 0} highlightTerms={highlightTerms} />);
     }
 
     return (
@@ -326,7 +342,7 @@ class MediaGallery extends PureComponent {
 
         {(!visible || uncached) && <SpoilerButton uncached={uncached} sensitive={sensitive} onClick={this.handleOpen} matchedFilters={matchedFilters} />}
 
-        {(visible && !uncached) && (
+        {(visible && !uncached && sensitive) && (
           <div className='media-gallery__actions'>
             <button className='media-gallery__actions__pill' onClick={this.handleOpen}><FormattedMessage id='media_gallery.hide' defaultMessage='Hide' /></button>
           </div>

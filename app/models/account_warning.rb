@@ -24,6 +24,7 @@ class AccountWarning < ApplicationRecord
     delete_statuses: 1_500,
     sensitive: 2_000,
     silence: 3_000,
+    sleep: 3_500,
     suspend: 4_000,
   }, suffix: :action
 

@@ -7343,6 +7343,12 @@ a.status-card {
   }
 }
 
+.compose-form__uploads {
+  max-height: var(--max-media-height-small);
+  overflow-y: auto;
+  grid-auto-rows: 128px;
+}
+
 .media-gallery__item {
   border: 0;
   box-sizing: border-box;
@@ -7383,6 +7389,16 @@ a.status-card {
     &--corner {
       align-items: flex-start;
       justify-content: flex-end;
+    }
+
+    &--more {
+      background: rgba(0, 0, 0, 0.6);
+
+      span {
+        color: var(--color-text-on-media);
+        font-size: 21px;
+        font-weight: 700;
+      }
     }
 
     .icon {

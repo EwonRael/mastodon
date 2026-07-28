@@ -37,11 +37,39 @@ export default class StatusList extends ImmutablePureComponent {
     lastId: PropTypes.string,
     bindToDocument: PropTypes.bool,
     statusProps: PropTypes.object,
+    replyRootMap: PropTypes.object,
+    missingParentIds: PropTypes.instanceOf(Set),
+    onFetchMissingParent: PropTypes.func,
   };
 
   static defaultProps = {
     trackScroll: true,
   };
+
+  // ids we've already requested a fetch for, so a reply whose parent turns
+  // out to be permanently unreachable (deleted, blocked, etc.) doesn't get
+  // re-requested on every recompute of missingParentIds.
+  requestedParentIds = new Set();
+
+  fetchMissingParents = () => {
+    const { missingParentIds, onFetchMissingParent } = this.props;
+    if (!missingParentIds || !onFetchMissingParent) return;
+
+    missingParentIds.forEach(id => {
+      if (!this.requestedParentIds.has(id)) {
+        this.requestedParentIds.add(id);
+        onFetchMissingParent(id);
+      }
+    });
+  };
+
+  componentDidMount () {
+    this.fetchMissingParents();
+  }
+
+  componentDidUpdate () {
+    this.fetchMissingParents();
+  }
 
   handleLoadOlder = debounce(() => {
     const { statusIds, lastId, onLoadMore } = this.props;
@@ -53,7 +81,7 @@ export default class StatusList extends ImmutablePureComponent {
   };
 
   render () {
-    const { statusIds, featuredStatusIds, onLoadMore, timelineId, statusProps, ...other }  = this.props;
+    const { statusIds, featuredStatusIds, onLoadMore, timelineId, statusProps, replyRootMap, missingParentIds, onFetchMissingParent, ...other }  = this.props;
     const { isLoading, isPartial } = other;
 
     if (isPartial) {
@@ -76,18 +104,29 @@ export default class StatusList extends ImmutablePureComponent {
               onClick={onLoadMore}
             />
           );
-        default:
+        default: {
+          // Home-only: a reply nested under its parent post gets the same
+          // previousId/nextId/rootId wiring the thread/detail view uses, so
+          // it renders with the same connecting line and skips the
+          // redundant "Replied to X" label.
+          const rootId = replyRootMap && replyRootMap[statusId];
+          const isNestedReply = rootId && rootId !== statusId;
+
           return (
             <StatusQuoteManager
               key={statusId}
               id={statusId}
               contextType={timelineId}
               scrollKey={this.props.scrollKey}
-              showThread
+              showThread={!isNestedReply}
+              previousId={isNestedReply ? (index > 0 ? statusIds.get(index - 1) : undefined) : undefined}
+              nextId={isNestedReply ? statusIds.get(index + 1) : undefined}
+              rootId={isNestedReply ? rootId : undefined}
               withCounters={this.props.withCounters}
               {...statusProps}
             />
           );
+        }
         }
       })
     ) : null;

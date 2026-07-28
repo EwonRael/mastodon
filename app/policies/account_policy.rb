@@ -41,6 +41,14 @@ class AccountPolicy < ApplicationPolicy
     role.can?(:manage_users)
   end
 
+  def sleep?
+    role.can?(:manage_users, :manage_reports) && role.overrides?(record.user_role)
+  end
+
+  def wake?
+    role.can?(:manage_users)
+  end
+
   def redownload?
     role.can?(:manage_federation)
   end

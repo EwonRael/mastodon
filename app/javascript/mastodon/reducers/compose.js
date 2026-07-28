@@ -1,4 +1,4 @@
-import { Map as ImmutableMap, List as ImmutableList, OrderedSet as ImmutableOrderedSet, fromJS } from 'immutable';
+import { Map as ImmutableMap, List as ImmutableList, fromJS } from 'immutable';
 
 import {
   changeComposeVisibility,
@@ -107,13 +107,15 @@ const initialPoll = ImmutableMap({
 });
 
 function statusToTextMentions(state, status) {
-  let set = ImmutableOrderedSet([]);
-
-  if (status.getIn(['account', 'id']) !== me) {
-    set = set.add(`@${status.getIn(['account', 'acct'])} `);
+  // Tin Can Phone Club: only prefill the person actually being replied to,
+  // not everyone else mentioned in their post. Otherwise replying to an
+  // "@all"/"@kids" group post expands the reply right back out to every
+  // member of that group instead of keeping the shortcut.
+  if (status.getIn(['account', 'id']) === me) {
+    return '';
   }
 
-  return set.union(status.get('mentions').filterNot(mention => mention.get('id') === me).map(mention => `@${mention.get('acct')} `)).join('');
+  return `@${status.getIn(['account', 'acct'])} `;
 }
 
 function clearAll(state) {
@@ -289,9 +291,10 @@ const mergeLocalHashtagResults = (suggestions, prefix, tagHistory) => {
   return suggestions.map(fixSuggestionCapitalization);
 };
 
-const normalizeSuggestions = (state, { accounts, emojis, tags, token }) => {
+const normalizeSuggestions = (state, { accounts, groups, emojis, tags, token }) => {
   if (accounts) {
-    return accounts.map(item => ({ id: item.id, type: 'account' }));
+    const groupSuggestions = (groups ?? []).map(item => ({ ...item, type: 'group' }));
+    return groupSuggestions.concat(accounts.map(item => ({ id: item.id, type: 'account' })));
   } else if (emojis) {
     return emojis.map(item => ({ ...item, type: 'emoji' }));
   } else {

@@ -7,6 +7,9 @@
 - elsif @account.silenced?
   .flash-message.warn
     = t('admin.account_actions.already_silenced')
+- elsif @account.sleeping?
+  .flash-message.warn
+    = t('admin.account_actions.already_sleeping')
 
 = simple_form_for @account_action, url: admin_account_action_path(@account.id) do |f|
   = f.input :report_id,

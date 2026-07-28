@@ -133,6 +133,7 @@ class Status extends ImmutablePureComponent {
   static propTypes = {
     identity: identityContextPropShape,
     params: PropTypes.object.isRequired,
+    location: PropTypes.object,
     dispatch: PropTypes.func.isRequired,
     status: ImmutablePropTypes.map,
     isLoading: PropTypes.bool,
@@ -530,8 +531,9 @@ class Status extends ImmutablePureComponent {
 
   render () {
     let ancestors, descendants, remoteHint;
-    const { isLoading, status, ancestorsIds, descendantsIds, refresh, intl, domain, multiColumn, pictureInPicture } = this.props;
+    const { isLoading, status, ancestorsIds, descendantsIds, refresh, intl, domain, multiColumn, pictureInPicture, location } = this.props;
     const { fullscreen } = this.state;
+    const highlightTerms = location?.state?.highlightTerms;
 
     if (isLoading) {
       return (
@@ -606,6 +608,7 @@ class Status extends ImmutablePureComponent {
                   pictureInPicture={pictureInPicture}
                   ancestors={this.props.ancestorsIds.length}
                   multiColumn={multiColumn}
+                  highlightTerms={highlightTerms}
                 />
 
                 <ActionBar

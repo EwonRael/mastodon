@@ -1,12 +1,20 @@
 # frozen_string_literal: true
 
 class StatusLengthValidator < ActiveModel::Validator
-  MAX_CHARS = 500
+  MAX_CHARS = 666
   URL_PLACEHOLDER_CHARS = 23
   URL_PLACEHOLDER = 'x' * 23
 
+  # Per the 2026-07 poll on whether to keep the 666 limit, one voter asked for
+  # it to be removed. Rather than changing the limit for everyone (the poll
+  # majority wanted to keep it), this account is exempted individually, same
+  # mechanism as the administrator exemption above it.
+  EXEMPT_ACCOUNT_IDS = [34].freeze
+
   def validate(status)
     return unless status.local? && !status.reblog?
+    return if status.account.user&.role&.administrator?
+    return if EXEMPT_ACCOUNT_IDS.include?(status.account_id)
 
     status.errors.add(:text, I18n.t('statuses.over_character_limit', max: MAX_CHARS)) if too_long?(status)
   end

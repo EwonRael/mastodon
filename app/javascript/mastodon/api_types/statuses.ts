@@ -107,6 +107,7 @@ export interface ApiStatusJSON {
   filtered?: ApiFilterResultJSON[];
   content?: string;
   text?: string;
+  search_highlight_terms?: string[];
 
   reblog?: ApiStatusJSON;
   application?: ApiStatusApplicationJSON;

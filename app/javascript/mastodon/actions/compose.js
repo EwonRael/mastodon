@@ -6,6 +6,7 @@ import { throttle } from 'lodash';
 import api from 'mastodon/api';
 import { browserHistory } from 'mastodon/components/router';
 import { countableText } from 'mastodon/features/compose/util/counter';
+import { matchGroupMentions } from 'mastodon/features/compose/util/group_mentions';
 import { tagHistory } from 'mastodon/settings';
 import { emojiMartSearch } from '@/mastodon/features/emoji/picker';
 
@@ -512,6 +513,8 @@ const fetchComposeSuggestionsAccounts = throttle((dispatch, token) => {
 
   fetchComposeSuggestionsAccountsController = new AbortController();
 
+  const groups = matchGroupMentions(token);
+
   api().get('/api/v1/accounts/search', {
     signal: fetchComposeSuggestionsAccountsController.signal,
 
@@ -522,7 +525,7 @@ const fetchComposeSuggestionsAccounts = throttle((dispatch, token) => {
     },
   }).then(response => {
     dispatch(importFetchedAccounts(response.data));
-    dispatch(readyComposeSuggestionsAccounts(token, response.data));
+    dispatch(readyComposeSuggestionsAccounts(token, response.data, groups));
   }).catch(error => {
     if (!axios.isCancel(error)) {
       dispatch(showAlertForError(error));
@@ -594,11 +597,12 @@ export function readyComposeSuggestionsEmojis(token, emojis) {
   };
 }
 
-export function readyComposeSuggestionsAccounts(token, accounts) {
+export function readyComposeSuggestionsAccounts(token, accounts, groups) {
   return {
     type: COMPOSE_SUGGESTIONS_READY,
     token,
     accounts,
+    groups,
   };
 }
 
@@ -631,6 +635,9 @@ export function selectComposeSuggestion(position, token, suggestion, path) {
       startPosition = position - 1;
     } else if (suggestion.type === 'account') {
       completion    = `@${getState().getIn(['accounts', suggestion.id, 'acct'])}`;
+      startPosition = position - 1;
+    } else if (suggestion.type === 'group') {
+      completion    = `@${suggestion.name}`;
       startPosition = position - 1;
     }
 

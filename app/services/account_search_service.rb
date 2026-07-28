@@ -43,15 +43,23 @@ class AccountSearchService < BaseService
     private
 
     def must_clauses
-      if @account && @options[:following]
-        [core_query, only_following_query]
-      else
-        [core_query]
+      [core_query].tap do |clauses|
+        clauses << only_following_query if @account && @options[:following]
+        clauses << local_only_query if @options[:local_only]
       end
     end
 
     def must_not_clauses
       []
+    end
+
+    # This function limits results to only local accounts
+    def local_only_query
+      {
+        term: {
+          properties: 'local',
+        },
+      }
     end
 
     def should_clauses
@@ -108,7 +116,16 @@ class AccountSearchService < BaseService
               multi_match: {
                 query: @query,
                 type: 'most_fields',
-                fields: %w(username username.*),
+                fields: %w(username),
+                fuzziness: 'AUTO',
+              },
+            },
+
+            {
+              match: {
+                'username.edge_ngram' => {
+                  query: @query,
+                },
               },
             },
 
@@ -116,7 +133,16 @@ class AccountSearchService < BaseService
               multi_match: {
                 query: @query,
                 type: 'most_fields',
-                fields: %w(display_name display_name.*),
+                fields: %w(display_name),
+                fuzziness: 'AUTO',
+              },
+            },
+
+            {
+              match: {
+                'display_name.edge_ngram' => {
+                  query: @query,
+                },
               },
             },
           ],
@@ -137,6 +163,7 @@ class AccountSearchService < BaseService
                 username: {
                   query: @query,
                   analyzer: 'word_join_analyzer',
+                  fuzziness: 'AUTO',
                 },
               },
             },
@@ -146,6 +173,7 @@ class AccountSearchService < BaseService
                 display_name: {
                   query: @query,
                   analyzer: 'word_join_analyzer',
+                  fuzziness: 'AUTO',
                 },
               },
             },
@@ -156,6 +184,7 @@ class AccountSearchService < BaseService
                 type: 'best_fields',
                 fields: %w(text text.*),
                 operator: 'and',
+                fuzziness: 'AUTO',
               },
             },
           ],
@@ -214,6 +243,8 @@ class AccountSearchService < BaseService
             end
 
     match = nil if !match.nil? && !account.nil? && options[:following] && !account.following?(match)
+    match = nil if !match.nil? && match.sleeping?
+    match = nil if !match.nil? && options[:local_only] && !match.local?
 
     @exact_match = match
   end
@@ -237,19 +268,23 @@ class AccountSearchService < BaseService
   end
 
   def advanced_search_results
-    Account.advanced_search_for(terms_for_query, account, limit: limit_for_non_exact_results, following: options[:following], offset: offset)
+    Account.advanced_search_for(terms_for_query, account, limit: limit_for_non_exact_results, following: options[:following], offset: offset, local_only: local_only?)
   end
 
   def simple_search_results
-    Account.search_for(terms_for_query, limit: limit_for_non_exact_results, offset: offset)
+    Account.search_for(terms_for_query, limit: limit_for_non_exact_results, offset: offset, local_only: local_only?)
+  end
+
+  def local_only?
+    options[:local_only] ? true : false
   end
 
   def from_elasticsearch
     query_builder = begin
       if options[:use_searchable_text]
-        FullQueryBuilder.new(terms_for_query, account, options.slice(:following))
+        FullQueryBuilder.new(terms_for_query, account, options.slice(:following, :local_only))
       else
-        AutocompleteQueryBuilder.new(terms_for_query, account, options.slice(:following))
+        AutocompleteQueryBuilder.new(terms_for_query, account, options.slice(:following, :local_only))
       end
     end
 

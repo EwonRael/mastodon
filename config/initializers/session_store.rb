@@ -8,4 +8,5 @@ Rails
   .session_store :cookie_store,
                  key: '_mastodon_session',
                  secure: false, # All cookies have their secure flag set by the force_ssl option in production
-                 same_site: :lax
+                 same_site: :lax,
+                 domain: :all # shared across subdomains (e.g. caption.tincanphone.club) so login carries over

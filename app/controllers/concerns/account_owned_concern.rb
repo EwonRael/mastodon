@@ -40,9 +40,13 @@ module AccountOwnedConcern
   def check_account_suspension
     if @account.permanently_unavailable?
       permanent_unavailability_response
-    elsif @account.suspended? && !skip_temporary_suspension_response?
+    elsif (@account.suspended? || sleeping_and_hidden?) && !skip_temporary_suspension_response?
       temporary_suspension_response
     end
+  end
+
+  def sleeping_and_hidden?
+    @account.sleeping? && current_account != @account && !current_user&.role&.can?(:manage_users)
   end
 
   def skip_temporary_suspension_response?

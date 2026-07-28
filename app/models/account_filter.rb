@@ -96,6 +96,8 @@ class AccountFilter
       accounts_with_users.merge(User.disabled).without_suspended
     when 'silenced'
       Account.silenced
+    when 'sleeping'
+      Account.sleeping
     when 'sensitized'
       Account.sensitized
     else

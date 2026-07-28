@@ -1,0 +1,9 @@
+- content_for :page_title do
+  = t('admin.accounts.change_password.title', username: @account.username)
+
+= simple_form_for @user, url: admin_account_change_password_path(@account.id) do |f|
+  .fields-group
+    = f.input :password, wrapper: :with_label, label: t('admin.accounts.change_password.new_password'), input_html: { autocomplete: 'new-password' }
+
+  .actions
+    = f.button :submit, class: 'button', value: t('admin.accounts.change_password.submit')

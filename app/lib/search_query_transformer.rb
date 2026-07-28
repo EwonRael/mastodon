@@ -23,7 +23,17 @@ class SearchQueryTransformer < Parslet::Transform
     end
 
     def request
-      search = Chewy::Search::Request.new(*indexes).filter(default_filter)
+      search = Chewy::Search::Request.new(*indexes).filter(default_filter).highlight(
+        fields: {
+          text: {
+            fragment_size: 60,
+            number_of_fragments: 5,
+          },
+        },
+        pre_tags: ['<mark>'],
+        post_tags: ['</mark>'],
+        require_field_match: false
+      )
 
       must_clauses.each { |clause| search = search.query.must(clause.to_query) }
       must_not_clauses.each { |clause| search = search.query.must_not(clause.to_query) }
@@ -125,7 +135,7 @@ class SearchQueryTransformer < Parslet::Transform
       if @term.start_with?('#')
         { match: { tags: { query: @term, operator: 'and' } } }
       else
-        { multi_match: { type: 'most_fields', query: @term, fields: ['text', 'text.stemmed'], operator: 'and' } }
+        { multi_match: { type: 'most_fields', query: @term, fields: ['text', 'text.stemmed'], operator: 'and', fuzziness: 'AUTO' } }
       end
     end
   end

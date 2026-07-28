@@ -97,6 +97,13 @@ module Admin
       redirect_to admin_account_path(@account.id), notice: I18n.t('admin.accounts.unsuspended_msg', username: @account.acct)
     end
 
+    def wake
+      authorize @account, :wake?
+      @account.wake!
+      log_action :wake, @account
+      redirect_to admin_account_path(@account.id), notice: I18n.t('admin.accounts.woken_msg', username: @account.acct)
+    end
+
     def redownload
       authorize @account, :redownload?
 

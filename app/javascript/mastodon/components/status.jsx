@@ -299,7 +299,7 @@ class Status extends ImmutablePureComponent {
       return;
     }
 
-    const { history } = this.props;
+    const { history, contextType } = this.props;
     const status = this._properStatus();
 
     if (!history) {
@@ -307,14 +307,15 @@ class Status extends ImmutablePureComponent {
     }
 
     const path = `/@${status.getIn(['account', 'acct'])}/${status.get('id')}`;
+    const highlightTerms = contextType === 'search' ? status.get('search_highlight_terms')?.toArray() : undefined;
 
     if (newTab) {
       window.open(path, '_blank', 'noopener');
     } else {
       if (history.location.pathname.replace('/deck/', '/') === path) {
-        history.replace(path, {focusTarget: FOCUS_TARGET.POST});
+        history.replace(path, {focusTarget: FOCUS_TARGET.POST, highlightTerms});
       } else {
-        history.push(path, {focusTarget: FOCUS_TARGET.POST});
+        history.push(path, {focusTarget: FOCUS_TARGET.POST, highlightTerms});
       }
     }
   };
@@ -395,6 +396,7 @@ class Status extends ImmutablePureComponent {
       skipPrepend,
       avatarSize = 46,
       children,
+      contextType,
     } = this.props;
 
     let { status, account, ...other } = this.props;
@@ -423,6 +425,7 @@ class Status extends ImmutablePureComponent {
     const connectToRoot = rootId && rootId === status.get('in_reply_to_id');
     const connectReply = nextInReplyToId && nextInReplyToId === status.get('id');
     const matchedFilters = status.get('matched_filters');
+    const highlightTerms = contextType === 'search' ? status.get('search_highlight_terms')?.toArray() : undefined;
 
     if (status.get('reblog', null) !== null && typeof status.get('reblog') === 'object') {
       const name = (
@@ -493,6 +496,7 @@ class Status extends ImmutablePureComponent {
                 visible={this.state.showMedia}
                 onToggleVisibility={this.handleToggleMediaVisibility}
                 matchedFilters={status.get('matched_media_filters')}
+                highlightTerms={highlightTerms}
               />
             )}
           </Bundle>
@@ -614,7 +618,7 @@ class Status extends ImmutablePureComponent {
 
             {matchedFilters && <FilterWarning title={matchedFilters.join(', ')} expanded={this.state.showDespiteFilter} onClick={this.handleFilterToggle} />}
 
-            {(!matchedFilters || this.state.showDespiteFilter) && <ContentWarning status={status} expanded={expanded} onClick={this.handleExpandedToggle} />}
+            {(!matchedFilters || this.state.showDespiteFilter) && <ContentWarning status={status} expanded={expanded} onClick={this.handleExpandedToggle} highlightTerms={highlightTerms} />}
 
             {expanded && (
               <>
@@ -624,6 +628,7 @@ class Status extends ImmutablePureComponent {
                   onTranslate={this.handleTranslate}
                   collapsible
                   onCollapsedToggle={this.handleCollapsedToggle}
+                  highlightTerms={highlightTerms}
                   {...statusContentProps}
                 />
 

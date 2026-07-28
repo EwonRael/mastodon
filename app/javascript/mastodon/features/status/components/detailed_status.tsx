@@ -60,6 +60,7 @@ export const DetailedStatus: React.FC<{
   onToggleMediaVisibility?: () => void;
   ancestors?: number;
   multiColumn?: boolean;
+  highlightTerms?: string[];
 }> = ({
   status,
   onOpenMedia,
@@ -76,6 +77,7 @@ export const DetailedStatus: React.FC<{
   onToggleHidden,
   ancestors = 0,
   multiColumn = false,
+  highlightTerms,
 }) => {
   const properStatus = status?.get('reblog') ?? status;
   const [height, setHeight] = useState(0);
@@ -211,6 +213,7 @@ export const DetailedStatus: React.FC<{
           visible={showMedia}
           onToggleVisibility={onToggleMediaVisibility}
           matchedFilters={status.get('matched_media_filters')}
+          highlightTerms={highlightTerms}
         />
       );
     } else if (status.getIn(['media_attachments', 0, 'type']) === 'audio') {
@@ -474,6 +477,7 @@ export const DetailedStatus: React.FC<{
             status={status}
             expanded={expanded}
             onClick={handleExpandedToggle}
+            highlightTerms={highlightTerms}
           />
         )}
 
@@ -482,6 +486,7 @@ export const DetailedStatus: React.FC<{
             <StatusContent
               status={status}
               onTranslate={handleTranslate}
+              highlightTerms={highlightTerms}
               {...(statusContentProps as any)}
             />
 

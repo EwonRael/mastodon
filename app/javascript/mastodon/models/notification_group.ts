@@ -58,6 +58,7 @@ export type AccountWarningAction =
   | 'delete_statuses'
   | 'sensitive'
   | 'silence'
+  | 'sleep'
   | 'suspend';
 export interface AccountWarning extends Omit<
   ApiAccountWarningJSON,

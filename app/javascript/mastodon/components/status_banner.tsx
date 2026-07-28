@@ -3,6 +3,8 @@ import { useCallback, useRef, useId } from 'react';
 
 import { FormattedMessage } from 'react-intl';
 
+import classNames from 'classnames';
+
 import { AnimateEmojiProvider } from './emoji/context';
 
 export enum BannerVariant {
@@ -19,7 +21,8 @@ export const StatusBanner: React.FC<{
   variant: BannerVariant;
   expanded?: boolean;
   onClick?: () => void;
-}> = ({ children, variant, expanded, onClick }) => {
+  hasHighlightMatch?: boolean;
+}> = ({ children, variant, expanded, onClick, hasHighlightMatch }) => {
   const descriptionId = useId();
 
   const buttonRef = useRef<HTMLButtonElement>(null);
@@ -50,7 +53,7 @@ export const StatusBanner: React.FC<{
       <button
         ref={buttonRef}
         type='button'
-        className='link-button'
+        className={classNames('link-button', { 'link-button--has-match': hasHighlightMatch })}
         onClick={onClick}
         aria-describedby={descriptionId}
       >

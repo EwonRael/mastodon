@@ -30,6 +30,8 @@
           = t('admin.accounts.suspended')
         - elsif account.silenced?
           = t('admin.accounts.silenced')
+        - elsif account.sleeping?
+          = t('admin.accounts.sleeping')
         - elsif account.local? && account.user_disabled?
           = t('admin.accounts.disabled')
         - elsif account.local? && !account.user_confirmed?

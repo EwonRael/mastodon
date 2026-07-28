@@ -1,0 +1,48 @@
+%h1 Write a caption!
+
+- if @media_attachment.nil?
+  - if @only_mine
+    %p You've finished captioning all of your photos! You can caption other people's photos by unchecking the checkbox below.
+  - else
+    %p We did it!!!!! All the photos have captions now!
+  = form_tag captions_root_path, method: :get do
+    = check_box_tag :only_mine, '1', @only_mine
+    = label_tag :only_mine, "Only show me photos I've uploaded"
+    = submit_tag 'Give me a different photo'
+- else
+  - poster = "@#{@media_attachment.account.username}"
+  - post_content = FormattingHelper.extract_status_plain_text(@media_attachment.status).presence
+  - photo_title = post_content ? "#{poster} — #{post_content}" : poster
+  = form_tag captions_root_path, method: :post do
+    = image_tag full_asset_url(@media_attachment.file.url(:small)), alt: 'Photo to caption', title: photo_title
+    = hidden_field_tag :media_attachment_id, @media_attachment.id
+    %br
+    = text_area_tag :caption, nil, rows: 4
+
+    %div
+      = check_box_tag :only_mine, '1', @only_mine
+      = label_tag :only_mine, "Only show me photos I've uploaded"
+
+    .button-row
+      = submit_tag 'Give me a different photo', formmethod: 'get', formaction: captions_root_path
+      = submit_tag 'Submit caption', class: 'submit-caption'
+
+- if @leaderboard.present?
+  - max_count = @leaderboard.values.max
+  %h2 Caption leaderboard
+  -# Bar widths use a nonced <style> block instead of inline style="" --
+  -# the page's CSP style-src only allows nonced styles, so an inline
+  -# style attribute is silently dropped by the browser (every bar was
+  -# rendering at its default 100% width).
+  %style{ nonce: request.content_security_policy_nonce }
+    - @leaderboard.each_with_index do |(_username, count), index|
+      - width = max_count.zero? ? 0 : (count.to_f / max_count * 100)
+      = ".poll li:nth-child(#{index + 1}) .poll__chart { width: #{width}%; }"
+  .poll
+    %ul
+      - @leaderboard.each do |username, count|
+        %li
+          .poll__option
+            %span.poll__number= count
+            %span.poll__option__text= "@#{username}"
+          %span.poll__chart{ class: ('leading' if count == max_count) }

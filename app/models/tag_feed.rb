@@ -40,6 +40,21 @@ class TagFeed < PublicFeed
 
   private
 
+  # Tin Can Phone Club: everyone follows everyone, so once a viewer is an
+  # authenticated real account there's no privacy boundary left to enforce --
+  # widen the tag feed to include followers-only posts too (never DMs),
+  # otherwise hashtags are invisible on every post since new posts default to
+  # followers-only. Stays public-only when there's no account, which is what
+  # keeps this safe: TagsController's RSS/ActivityPub feed always passes a
+  # nil account, and LIMITED_FEDERATION_MODE forces authentication before any
+  # request (API or RSS) can reach this with a real account attached, so
+  # unauthenticated and remote requests never see anything but public posts.
+  def public_scope
+    return super unless account
+
+    Status.list_eligible_visibility.joins(:account).merge(Account.without_suspended.without_silenced)
+  end
+
   def local_feed_setting
     Setting.local_topic_feed_access
   end

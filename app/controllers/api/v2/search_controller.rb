@@ -18,7 +18,7 @@ class Api::V2::SearchController < Api::BaseController
 
   def index
     @search = Search.new(search_results)
-    render json: @search, serializer: REST::SearchSerializer
+    render json: @search, serializer: REST::SearchSerializer, highlights: @search_service.statuses_highlights
   rescue Mastodon::SyntaxError
     unprocessable_content
   rescue ActiveRecord::RecordNotFound
@@ -40,18 +40,8 @@ class Api::V2::SearchController < Api::BaseController
   end
 
   def handle_fasp_requests
-    return unless Mastodon::Feature.fasp_enabled?
-    return if params[:q].blank?
-
-    # Do not schedule a new retrieval if the request is a follow-up
-    # to an earlier retrieval
-    return if request.headers['Mastodon-Async-Refresh-Id'].present?
-
-    refresh_key = "fasp:account_search:#{Digest::MD5.base64digest(params[:q])}"
-    return if AsyncRefresh.new(refresh_key).running?
-
-    add_async_refresh_header(AsyncRefresh.create(refresh_key))
-    @query_fasp = true
+    # Tin Can Phone Club: never query external FASP providers, keep search fully local
+    nil
   end
 
   def remote_resolve_requested?
@@ -63,7 +53,8 @@ class Api::V2::SearchController < Api::BaseController
   end
 
   def search_results
-    SearchService.new.call(
+    @search_service = SearchService.new
+    @search_service.call(
       params[:q],
       current_account,
       limit_param(RESULTS_LIMIT),
@@ -73,10 +64,11 @@ class Api::V2::SearchController < Api::BaseController
 
   def combined_search_params
     search_params.merge(
-      resolve: truthy_param?(:resolve),
+      resolve: false,
       exclude_unreviewed: truthy_param?(:exclude_unreviewed),
       following: truthy_param?(:following),
-      query_fasp: @query_fasp
+      query_fasp: false,
+      local_only: true
     )
   end
 

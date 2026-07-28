@@ -18,7 +18,8 @@ class Api::V1::Accounts::SearchController < Api::BaseController
       limit: limit_param(DEFAULT_ACCOUNTS_LIMIT),
       resolve: truthy_param?(:resolve),
       following: truthy_param?(:following),
-      offset: params[:offset]
+      offset: params[:offset],
+      local_only: true
     )
   end
 end

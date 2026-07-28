@@ -1,0 +1,7 @@
+// Tin Can Phone Club customization: flatten all rounded corners site-wide.
+// A single global override is used instead of hand-editing every individual
+// border-radius rule, since there's no central variable/mixin controlling
+// radius across the codebase, and this survives future upstream style changes.
+* {
+  border-radius: 0 !important;
+}

@@ -26,6 +26,10 @@ class SearchService < BaseService
     end
   end
 
+  def statuses_highlights
+    @statuses_search_service&.highlights || {}
+  end
+
   private
 
   def perform_accounts_search!
@@ -38,19 +42,22 @@ class SearchService < BaseService
       use_searchable_text: true,
       following: @following,
       start_with_hashtag: @query.start_with?('#'),
-      query_fasp: @options[:query_fasp]
+      query_fasp: @options[:query_fasp],
+      local_only: @options[:local_only]
     )
   end
 
   def perform_statuses_search!
-    StatusesSearchService.new.call(
+    @statuses_search_service = StatusesSearchService.new
+    @statuses_search_service.call(
       @query,
       @account,
       limit: @limit,
       offset: @offset,
       account_id: @options[:account_id],
       min_id: @options[:min_id],
-      max_id: @options[:max_id]
+      max_id: @options[:max_id],
+      local_only: @options[:local_only]
     )
   end
 

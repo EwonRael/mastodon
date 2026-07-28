@@ -22,7 +22,7 @@ export const textAtCursorMatchesToken = (
 
   word = word.trim();
 
-  if (word.length < 3 || (word[0] && !searchTokens.includes(word[0]))) {
+  if (word.length < 2 || (word[0] && !searchTokens.includes(word[0]))) {
     return [null, null];
   }
 

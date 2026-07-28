@@ -1,0 +1,6 @@
+- redirect_url = root_url(host: Rails.configuration.x.web_domain)
+%meta{ "http-equiv": "refresh", content: "0; url=#{redirect_url}" }/
+%h1 Write a caption!
+%p
+  You need to be signed in to tincanphone.club to use this.
+  = link_to 'Go to tincanphone.club', redirect_url

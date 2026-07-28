@@ -9,6 +9,10 @@ class UserPolicy < ApplicationPolicy
     role.can?(:manage_user_access) && role.overrides?(record.role)
   end
 
+  def change_password?
+    role.can?(:manage_user_access) && role.overrides?(record.role)
+  end
+
   def disable_2fa?
     role.can?(:manage_user_access) && role.overrides?(record.role)
   end

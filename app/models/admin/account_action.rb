@@ -6,6 +6,7 @@ class Admin::AccountAction < Admin::BaseAction
     disable
     sensitive
     silence
+    sleep
     suspend
   ).freeze
 
@@ -23,16 +24,21 @@ class Admin::AccountAction < Admin::BaseAction
       if account.local?
         TYPES
       else
-        TYPES - %w(none disable)
+        TYPES - %w(none disable sleep)
       end
     end
 
     def disabled_types_for_account(account)
-      if account.suspended_locally?
-        %w(silence suspend)
-      elsif account.silenced?
-        %w(silence)
-      end
+      types = if account.suspended_locally?
+                %w(silence suspend)
+              elsif account.silenced?
+                %w(silence)
+              else
+                []
+              end
+
+      types << 'sleep' if account.sleeping?
+      types
     end
 
     def i18n_scope
@@ -62,6 +68,8 @@ class Admin::AccountAction < Admin::BaseAction
       handle_sensitive!
     when 'silence'
       handle_silence!
+    when 'sleep'
+      handle_sleep!
     when 'suspend'
       handle_suspend!
     end
@@ -98,6 +106,12 @@ class Admin::AccountAction < Admin::BaseAction
     authorize(target_account, :silence?)
     log_action(:silence, target_account)
     target_account.silence!
+  end
+
+  def handle_sleep!
+    authorize(target_account, :sleep?)
+    log_action(:sleep, target_account)
+    target_account.sleep!
   end
 
   def handle_suspend!

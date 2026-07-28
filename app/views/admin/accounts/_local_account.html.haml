@@ -39,9 +39,10 @@
     - else
       = t('admin.accounts.confirming')
   %td= table_link_to 'refresh', t('admin.accounts.resend_confirmation.send'), resend_admin_account_confirmation_path(account.id), method: :post if can?(:confirm, account.user)
+- security_rows = 1 + (can?(:reset_password, account.user) ? 1 : 0) + (can?(:change_password, account.user) ? 1 : 0)
 %tr
-  %th{ rowspan: can?(:reset_password, account.user) ? 2 : 1 }= t('admin.accounts.security')
-  %td{ rowspan: can?(:reset_password, account.user) ? 2 : 1 }
+  %th{ rowspan: security_rows }= t('admin.accounts.security')
+  %td{ rowspan: security_rows }
     - if account.user&.two_factor_enabled?
       = t 'admin.accounts.security_measures.password_and_2fa'
     - else
@@ -53,6 +54,10 @@
   %tr
     %td
       = table_link_to 'key', t('admin.accounts.reset_password'), admin_account_reset_path(account.id), method: :post, data: { confirm: t('admin.accounts.are_you_sure') }
+- if can?(:change_password, account.user)
+  %tr
+    %td
+      = table_link_to 'key', t('admin.accounts.change_password.label'), admin_account_change_password_path(account.id)
 %tr
   %th= t('simple_form.labels.defaults.locale')
   %td= standard_locale_name(account.user_locale)

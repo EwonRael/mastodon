@@ -26,8 +26,8 @@ import PersonAddActiveIcon from '@/material-icons/400-24px/person_add-fill.svg?r
 import PersonAddIcon from '@/material-icons/400-24px/person_add.svg?react';
 import PublicIcon from '@/material-icons/400-24px/public.svg?react';
 import SettingsIcon from '@/material-icons/400-24px/settings.svg?react';
-import StarActiveIcon from '@/material-icons/400-24px/star-fill.svg?react';
-import StarIcon from '@/material-icons/400-24px/star.svg?react';
+import StarActiveIcon from '@/material-icons/400-24px/favorite-fill.svg?react';
+import StarIcon from '@/material-icons/400-24px/favorite.svg?react';
 import TrendingUpIcon from '@/material-icons/400-24px/trending_up.svg?react';
 import { fetchFollowRequests } from 'mastodon/actions/accounts';
 import { openNavigation, closeNavigation } from 'mastodon/actions/navigation';

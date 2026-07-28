@@ -24,7 +24,7 @@ const messages = defineMessages({
   message: {
     id: 'confirmations.missing_alt_text.message',
     defaultMessage:
-      'Your post contains media without alt text. Adding descriptions helps make your content accessible to more people.',
+      'Your post contains media without alt text. Adding descriptions will allow you to better search for it later.',
   },
   secondary: {
     id: 'confirmations.missing_alt_text.secondary',

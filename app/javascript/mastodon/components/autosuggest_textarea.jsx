@@ -9,6 +9,7 @@ import Overlay from 'react-overlays/Overlay';
 import Textarea from 'react-textarea-autosize';
 
 import AutosuggestAccountContainer from '../features/compose/containers/autosuggest_account_container';
+import AutosuggestGroup from '../features/compose/components/autosuggest_group';
 
 import { AutosuggestEmoji } from './autosuggest_emoji';
 import { AutosuggestHashtag } from './autosuggest_hashtag';
@@ -164,6 +165,9 @@ const AutosuggestTextarea = forwardRef(({
     } else if (suggestion.type === 'account') {
       inner = <AutosuggestAccountContainer id={suggestion.id} />;
       key   = suggestion.id;
+    } else if (suggestion.type === 'group') {
+      inner = <AutosuggestGroup group={suggestion} />;
+      key   = suggestion.name;
     }
 
     return (

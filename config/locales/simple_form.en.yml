@@ -28,6 +28,7 @@ en:
           none: Use this to send a warning to the user, without triggering any other action.
           sensitive: Force all this user's media attachments to be flagged as sensitive.
           silence: Prevent the user from being able to post with public visibility, hide their posts and notifications from people not following them. Closes all reports against this account.
+          sleep: Hide the profile from public lists and from mention autocomplete, as if the account no longer existed. The user can still log in as normal, and the account wakes itself back up the next time they do anything with it.
           suspend: Prevent any interaction from or to this account and delete its contents. Revertible within 30 days. Closes all reports against this account.
         warning_preset_id: Optional. You can still add custom text to end of the preset
       announcement:
@@ -203,6 +204,7 @@ en:
           none: Send a warning
           sensitive: Sensitive
           silence: Limit
+          sleep: Sleep
           suspend: Suspend
         warning_preset_id: Use a warning preset
       announcement:

@@ -50,6 +50,12 @@ en-GB:
         new_email: New email
         submit: Change email
         title: Change email for %{username}
+      change_password:
+        changed_msg: Password successfully changed!
+        label: Set password
+        new_password: New password
+        submit: Set password
+        title: Set password for %{username}
       change_role:
         changed_msg: Role successfully changed!
         edit_roles: Manage user roles
@@ -136,7 +142,7 @@ en-GB:
         send: Resend confirmation link
         success: Confirmation link successfully sent!
       reset: Reset
-      reset_password: Reset password
+      reset_password: Send reset password email
       resubscribe: Resubscribe
       role: Role
       search: Search
@@ -182,6 +188,7 @@ en-GB:
         approve_user: Approve User
         assigned_to_self_report: Assign Report
         change_email_user: Change Email for User
+        change_password_user: Set Password for User
         change_role_user: Change Role of User
         confirm_user: Confirm User
         create_account_warning: Create Warning
@@ -250,6 +257,7 @@ en-GB:
         approve_user_html: "%{name} approved sign-up from %{target}"
         assigned_to_self_report_html: "%{name} assigned report %{target} to themselves"
         change_email_user_html: "%{name} changed the email address of user %{target}"
+        change_password_user_html: "%{name} changed the password of user %{target}"
         change_role_user_html: "%{name} changed role of %{target}"
         confirm_user_html: "%{name} confirmed email address of user %{target}"
         create_account_warning_html: "%{name} sent a warning to %{target}"
@@ -1461,7 +1469,7 @@ en-GB:
       title: Security verification failed
     '429': Too many requests
     '500':
-      content: We're sorry, but something went wrong on our end.
+      content: Temporarily down because I'm messing with the code.
       title: This page is not correct
     '503': The page could not be served due to a temporary server failure.
     noscript_html: To use the Mastodon web application, please enable JavaScript. Alternatively, try one of the <a href="%{apps_path}">native apps</a> for Mastodon for your platform.

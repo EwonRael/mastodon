@@ -19,6 +19,7 @@ import { EmojiHTML } from './emoji/html';
 import { injectIntl } from './intl';
 import { HandledLink } from './status/handled_link';
 import { compareUrls } from '../utils/compare_urls';
+import { highlightSearchTerms, containsHighlightTerm } from '../utils/search_highlight';
 
 const MAX_HEIGHT = 706; // 22px * 32 (+ 2px padding at the top)
 
@@ -81,6 +82,7 @@ class StatusContent extends PureComponent {
     onClick: PropTypes.func,
     collapsible: PropTypes.bool,
     onCollapsedToggle: PropTypes.func,
+    highlightTerms: PropTypes.arrayOf(PropTypes.string),
     languages: ImmutablePropTypes.map,
     intl: PropTypes.object,
     // from react-router
@@ -183,7 +185,7 @@ class StatusContent extends PureComponent {
   }
 
   render () {
-    const { status, intl, statusContent } = this.props;
+    const { status, intl, statusContent, highlightTerms } = this.props;
 
     const renderReadMore = this.props.onClick && status.get('collapsed');
     const contentLocale = intl.locale.replace(/[_-].*/, '');
@@ -192,13 +194,15 @@ class StatusContent extends PureComponent {
 
     const content = statusContent ?? getStatusContent(status);
     const language = status.getIn(['translation', 'language']) || status.get('language');
+    const hasHiddenMatch = renderReadMore && containsHighlightTerm(content, highlightTerms);
+    const onText = highlightTerms?.length > 0 ? (text) => highlightSearchTerms(text, highlightTerms) : undefined;
     const classNames = classnames('status__content', {
       'status__content--with-action': this.props.onClick && this.props.history,
       'status__content--collapsed': renderReadMore,
     });
 
     const readMoreButton = renderReadMore && (
-      <button className='status__content__read-more-button' onClick={this.props.onClick} key='read-more'>
+      <button className={classnames('status__content__read-more-button', { 'status__content__read-more-button--has-match': hasHiddenMatch })} onClick={this.props.onClick} key='read-more'>
         <FormattedMessage id='status.read_more' defaultMessage='Read more' /><Icon id='angle-right' icon={ChevronRightIcon} />
       </button>
     );
@@ -227,6 +231,7 @@ class StatusContent extends PureComponent {
               htmlString={content}
               extraEmojis={status.get('emojis')}
               onElement={this.handleElement}
+              onText={onText}
             />
 
             {poll}
@@ -245,6 +250,7 @@ class StatusContent extends PureComponent {
             htmlString={content}
             extraEmojis={status.get('emojis')}
             onElement={this.handleElement}
+            onText={onText}
           />
 
           {poll}

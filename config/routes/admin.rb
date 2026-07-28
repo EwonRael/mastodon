@@ -151,6 +151,7 @@ namespace :admin do
       post :unsensitive
       post :unsilence
       post :unsuspend
+      post :wake
       post :redownload
       post :remove_avatar
       post :remove_header
@@ -161,6 +162,7 @@ namespace :admin do
     end
 
     resource :change_email, only: [:show, :update]
+    resource :change_password, only: [:show, :update]
     resource :reset, only: [:create]
     resource :action, only: [:new, :create], controller: 'account_actions'
 

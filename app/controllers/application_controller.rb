@@ -28,6 +28,7 @@ class ApplicationController < ActionController::Base
 
   before_action :store_referrer, except: :raise_not_found, if: :devise_controller?
   before_action :require_functional!, if: :user_signed_in?
+  before_action :wake_from_sleep!
 
   before_action :set_cache_control_defaults
 
@@ -120,6 +121,14 @@ class ApplicationController < ActionController::Base
     return @current_account if defined?(@current_account)
 
     @current_account = current_user&.account
+  end
+
+  # A sleeping account wakes back up the moment its owner does anything
+  # beyond just looking at pages, so logging in alone doesn't wake it.
+  def wake_from_sleep!
+    return if request.get? || request.head?
+
+    current_account&.wake! if current_account&.sleeping?
   end
 
   def current_session

@@ -19,6 +19,7 @@ class REST::StatusSerializer < ActiveModel::Serializer
 
   attribute :content, unless: :source_requested?
   attribute :text, if: :source_requested?
+  attribute :search_highlight_terms, if: :highlighted?
 
   belongs_to :reblog, serializer: REST::StatusSerializer
   belongs_to :application, if: :show_application?
@@ -163,6 +164,14 @@ class REST::StatusSerializer < ActiveModel::Serializer
     instance_options[:source_requested]
   end
 
+  def search_highlight_terms
+    highlights[object.id]
+  end
+
+  def highlighted?
+    highlights.present? && highlights[object.id].present?
+  end
+
   def ordered_mentions
     object.active_mentions.to_a.sort_by(&:id)
   end
@@ -183,6 +192,10 @@ class REST::StatusSerializer < ActiveModel::Serializer
 
   def relationships
     instance_options && instance_options[:relationships]
+  end
+
+  def highlights
+    instance_options && instance_options[:highlights]
   end
 
   class ApplicationSerializer < ActiveModel::Serializer

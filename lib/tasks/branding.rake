@@ -37,7 +37,9 @@ namespace :branding do
 
   desc 'Generate favicons and app icons from SVG source files'
   task generate_app_icons: :environment do
-    favicon_source  = Rails.root.join('app', 'javascript', 'images', 'logo.svg')
+    # Tin Can Phone Club: dedicated small-size-legible favicon source, kept separate
+    # from logo.svg (which still drives the larger in-app logo/home-screen icons).
+    favicon_source  = Rails.root.join('app', 'javascript', 'images', 'favicon-small.svg')
     app_icon_source = Rails.root.join('app', 'javascript', 'images', 'app-icon.svg')
     output_dest     = Rails.root.join('app', 'javascript', 'icons')
 
